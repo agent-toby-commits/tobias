@@ -519,6 +519,56 @@ a.block__part:focus-visible {
   color: var(--ink);
 }
 
+/* --- Live-Demo (Streamlit iframe) --- */
+
+.live-demo {
+  margin: 0 0 2.5rem;
+  padding: 0;
+  border-top: none;
+}
+
+.live-demo__frame-wrap {
+  border: 0;
+  background: transparent;
+  overflow: hidden;
+  margin: 0 -0.25rem;
+}
+
+.live-demo__frame {
+  display: block;
+  width: 100%;
+  height: min(72vh, 42rem);
+  border: 0;
+  background: transparent;
+}
+
+.live-demo__code-title {
+  margin: 1.75rem 0 0.75rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+}
+
+.code-block {
+  margin: 0;
+  padding: 1.1rem 1.15rem;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  background: #0a0e14;
+  color: #d7e0ea;
+  font-family: "SF Mono", "Fira Code", ui-monospace, monospace;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  white-space: pre;
+}
+
+.code-block code {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
 /* --- Glossar --- */
 
 .page-header--glossary {

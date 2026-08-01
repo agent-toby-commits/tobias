@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RAG · Context &amp; Memory Management · Tobias Lampe</title>
-  <meta name="description" content="RAG – Retrieval-Augmented Generation unter Context &amp; Memory Management.">
+  <meta name="description" content="RAG – Retrieval-Augmented Generation: Query, Retrieval, Augmentation und Vector Database.">
   <link rel="canonical" href="https://tobiaslampe.de/contextandmemory/rag">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,10 +25,107 @@
     <p class="page-lede">Retrieval-Augmented Generation – Kontext aus eigenen Quellen in Antworten bringen.</p>
   </header>
 
-  <main class="page-main">
-    <section class="page-section page-section--draft">
-      <p>Inhalt folgt.</p>
+  <main class="page-main page-main--wide">
+    <figure class="topic-hero">
+      <img
+        src="/assets/contextandmemory/rag.jpeg"
+        width="1024"
+        height="1024"
+        alt="Lego-Illustration: RAG mit Query, Retrieval, Vector Database und Augmentation"
+        decoding="async"
+        fetchpriority="high"
+      >
+    </figure>
+
+    <section class="live-demo" aria-label="RAG Demo">
+      <div class="live-demo__frame-wrap">
+        <iframe
+          id="rag-demo-frame"
+          class="live-demo__frame"
+          title="RAG Demo: Antwort aus den Upanischaden"
+          loading="lazy"
+          allow="clipboard-write"
+        ></iframe>
+      </div>
+      <script>
+        (function () {
+          var local = location.hostname === "127.0.0.1" || location.hostname === "localhost";
+          var base = local ? "http://127.0.0.1:8503" : "/apps/rag";
+          var frame = document.getElementById("rag-demo-frame");
+          if (frame) frame.src = base + "/?embed=true&v=20260801c";
+        })();
+      </script>
+
+      <h3 class="live-demo__code-title">Code der Abfrage (bestehende Vektordatenbank)</h3>
+      <pre class="code-block" tabindex="0"><code># ==========================================
+# 1. BEREITS EXISTIERENDE DATENBANK LADEN
+# ==========================================
+embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+
+# Chroma greift einfach auf den bestehenden Ordner zu (sekundenschnell!)
+vectorstore = Chroma(
+    persist_directory="./chroma_db",
+    embedding_function=embeddings
+)
+
+retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
+
+# ==========================================
+# 2. RAG-CHAIN EINRICHTEN
+# ==========================================
+llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+
+system_prompt = (
+    "Du bist ein hilfreicher Assistent. Beantworte die Frage NUR basierend "
+    "auf dem folgenden bereitgestellten Kontext:\n\n{context}"
+)
+
+prompt = ChatPromptTemplate.from_messages([
+    ("system", system_prompt),
+    ("human", "{input}"),
+])
+
+question_answer_chain = create_stuff_documents_chain(llm, prompt)
+rag_chain = create_retrieval_chain(retriever, question_answer_chain)
+
+# ==========================================
+# 3. FUNKTION FÜR DEINE ENDPUNKTE / API
+# ==========================================
+def frage_beantworten(user_frage: str) -&gt; str:
+    """Diese Funktion rufst du auf, wenn eine Anfrage von außen reinkommt."""
+    response = rag_chain.invoke({"input": user_frage})
+    return response["answer"]
+
+
+# Beispiels-Aufruf
+if __name__ == "__main__":
+    antwort = frage_beantworten("Was ist das Hauptthema in Kapitel 3?")
+    print(antwort)
+</code></pre>
     </section>
+
+    <article class="topic-article">
+      <h2>Was ist RAG?</h2>
+      <p>Inhalt folgt – kurze Einordnung von Retrieval-Augmented Generation und warum eigene Wissensquellen für belastbare AI-Antworten entscheidend sind.</p>
+
+      <h2>Query</h2>
+      <p>Inhalt folgt – wie die Nutzerfrage aufbereitet und in den RAG-Prozess eingespeist wird.</p>
+
+      <h2>Retrieval &amp; Vector Database</h2>
+      <p>Inhalt folgt – Suche nach relevanten Passagen in einer Vektordatenbank und Auswahl des passenden Kontexts.</p>
+
+      <h2>Augmentation &amp; Generation</h2>
+      <p>Inhalt folgt – Kombination aus Query und retrieved Context, bevor das Modell die Antwort erzeugt.</p>
+
+      <h2>Wann RAG sinnvoll ist</h2>
+      <p>Inhalt folgt – typische Einsatzfälle, Grenzen und Abgrenzung zu reinem Fine-Tuning oder langem Kontextfenster.</p>
+
+      <p class="topic-back">
+        <a href="/contextandmemory">Zurück zu Context &amp; Memory Management</a>
+        <span class="page-nav__dot" aria-hidden="true">·</span>
+        <a href="/">Zurück zur Home</a>
+      </p>
+    </article>
   </main>
 </body>
 </html>
