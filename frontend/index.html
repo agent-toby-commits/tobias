@@ -19,118 +19,220 @@
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-  <a class="skip-link" href="#brand">Zum Inhalt</a>
+  <a class="skip-link" href="#building-blocks">Zu den Building Blocks</a>
 
-  <main class="map-stage" aria-label="AI-Ökosystem Navigation">
-    <div class="map-fit">
-      <img
-        class="map-image"
-        src="/assets/AIbg.png"
-        width="1536"
-        height="1024"
-        alt="Isometrische Navigation Map eines AI-Ökosystems mit Hubs für Vision, Lab, Agents, Services, Security und Deployment."
-        decoding="async"
-        fetchpriority="high"
-      >
-      <svg class="map-hotspots" viewBox="0 0 1536 1024" role="group" aria-label="Hubs der AI-Map">
-        <a href="#ai-vision-goals"><title>AI Vision &amp; Goals</title><rect x="180" y="40" width="240" height="160" /></a>
-        <a href="#ai-lab"><title>AI Lab &amp; Experimentation</title><rect x="450" y="30" width="250" height="150" /></a>
-        <a href="#multi-agent"><title>Multi-Agent Orchestration</title><rect x="720" y="80" width="330" height="200" /></a>
-        <a href="#performance"><title>AI Performance Cockpit</title><rect x="1100" y="60" width="380" height="200" /></a>
-        <a href="#clients"><title>Clients &amp; Users</title><rect x="40" y="280" width="240" height="200" /></a>
-        <a href="#applications"><title>AI Applications</title><rect x="300" y="260" width="260" height="220" /></a>
-        <a href="#agents"><title>AI Agents</title><circle cx="720" cy="420" r="110" /></a>
-        <a href="#context"><title>Context &amp; Memory</title><rect x="880" y="300" width="240" height="180" /></a>
-        <a href="#security"><title>Security Fortress</title><rect x="1180" y="300" width="300" height="220" /></a>
-        <a href="#code-dev"><title>Multi-Modal Code Dev</title><rect x="40" y="520" width="280" height="200" /></a>
-        <a href="#llm-models"><title>LLM Models</title><rect x="80" y="780" width="200" height="180" /></a>
-        <a href="#services"><title>AI Services</title><rect x="360" y="560" width="340" height="260" /></a>
-        <a href="#data-factory"><title>Data Factory</title><rect x="720" y="620" width="260" height="240" /></a>
-        <a href="#access"><title>Access &amp; Operations</title><rect x="1000" y="560" width="280" height="200" /></a>
-        <a href="#deployment"><title>Deployment Zone</title><rect x="1200" y="700" width="300" height="260" /></a>
-      </svg>
+  <section class="map-stage" aria-label="AI-Ökosystem Navigation">
+    <div class="map-scroll">
+      <div class="map-zoom">
+        <div class="map-fit">
+          <img
+            class="map-image"
+            src="/assets/AIbg.png"
+            width="1536"
+            height="1024"
+            alt="Isometrische Übersicht eines AI-Ökosystems."
+            decoding="async"
+            fetchpriority="high"
+          >
+        </div>
+      </div>
     </div>
 
     <header class="brand-bar" id="brand">
       <p class="brand">Tobias Lampe</p>
       <p class="tagline">AI Full-Stack Strategist · Berlin</p>
     </header>
-  </main>
+  </section>
 
-  <section class="hub-panel" id="ai-vision-goals" tabindex="-1">
-    <h2>AI Vision &amp; Goals</h2>
-    <p>Richtung und Zielbild – wofür AI im Unternehmen überhaupt existieren soll.</p>
-    <a class="hub-panel__close" href="#brand" aria-label="Schließen">×</a>
-  </section>
-  <section class="hub-panel" id="ai-lab" tabindex="-1">
-    <h2>AI Lab &amp; Experimentation</h2>
-    <p>Sicheres Experimentieren, Prototypen und Hypothesen prüfen, bevor etwas skaliert.</p>
-    <a class="hub-panel__close" href="#brand" aria-label="Schließen">×</a>
-  </section>
-  <section class="hub-panel" id="multi-agent" tabindex="-1">
-    <h2>Multi-Agent Orchestration</h2>
-    <p>Mehrere Agents koordinieren, damit komplexe Aufgaben verteilt und gesteuert ablaufen.</p>
-    <a class="hub-panel__close" href="#brand" aria-label="Schließen">×</a>
-  </section>
-  <section class="hub-panel" id="performance" tabindex="-1">
-    <h2>AI Performance Cockpit</h2>
-    <p>Qualität, Kosten und Wirkung im Blick – Messbarkeit statt Bauchgefühl.</p>
-    <a class="hub-panel__close" href="#brand" aria-label="Schließen">×</a>
-  </section>
-  <section class="hub-panel" id="clients" tabindex="-1">
-    <h2>Clients &amp; Users</h2>
-    <p>Menschen und Systeme, die mit AI arbeiten und davon Nutzen haben sollen.</p>
-    <a class="hub-panel__close" href="#brand" aria-label="Schließen">×</a>
-  </section>
-  <section class="hub-panel" id="applications" tabindex="-1">
-    <h2>AI Applications</h2>
-    <p>Konkrete Produkte und Oberflächen, in denen AI im Alltag ankommt.</p>
-    <a class="hub-panel__close" href="#brand" aria-label="Schließen">×</a>
-  </section>
-  <section class="hub-panel" id="agents" tabindex="-1">
-    <h2>AI Agents</h2>
-    <p>Autonome Bausteine, die Aufgaben übernehmen, Tools nutzen und Ergebnisse liefern.</p>
-    <a class="hub-panel__close" href="#brand" aria-label="Schließen">×</a>
-  </section>
-  <section class="hub-panel" id="context" tabindex="-1">
-    <h2>Context &amp; Memory</h2>
-    <p>Wissen, Historie und Kontext speichern – damit AI nicht bei Null anfängt.</p>
-    <a class="hub-panel__close" href="#brand" aria-label="Schließen">×</a>
-  </section>
-  <section class="hub-panel" id="security" tabindex="-1">
-    <h2>Security Fortress</h2>
-    <p>Schutz, Rechte und Guardrails – AI nur so offen, wie es verantwortbar ist.</p>
-    <a class="hub-panel__close" href="#brand" aria-label="Schließen">×</a>
-  </section>
-  <section class="hub-panel" id="code-dev" tabindex="-1">
-    <h2>Multi-Modal Code Dev</h2>
-    <p>Entwicklung mit Code, Bild, Text und Tools – vom Entwurf bis zur Integration.</p>
-    <a class="hub-panel__close" href="#brand" aria-label="Schließen">×</a>
-  </section>
-  <section class="hub-panel" id="llm-models" tabindex="-1">
-    <h2>LLM Models</h2>
-    <p>Die Modellschicht: Auswahl, Evaluation und Einsatz der richtigen Foundation Models.</p>
-    <a class="hub-panel__close" href="#brand" aria-label="Schließen">×</a>
-  </section>
-  <section class="hub-panel" id="services" tabindex="-1">
-    <h2>AI Services</h2>
-    <p>Wiederverwendbare AI-Dienste und Pipelines unter der Oberfläche der Anwendungen.</p>
-    <a class="hub-panel__close" href="#brand" aria-label="Schließen">×</a>
-  </section>
-  <section class="hub-panel" id="data-factory" tabindex="-1">
-    <h2>Data Factory</h2>
-    <p>Daten aufbereiten, verbinden und bereitstellen – das Fundament jeder AI-Strecke.</p>
-    <a class="hub-panel__close" href="#brand" aria-label="Schließen">×</a>
-  </section>
-  <section class="hub-panel" id="access" tabindex="-1">
-    <h2>Access &amp; Operations</h2>
-    <p>Betrieb, Zugänge und laufende Steuerung der AI-Landschaft.</p>
-    <a class="hub-panel__close" href="#brand" aria-label="Schließen">×</a>
-  </section>
-  <section class="hub-panel" id="deployment" tabindex="-1">
-    <h2>Deployment Zone</h2>
-    <p>Vom Prototyp in Produktion: Container, Cloud und Release-Pfade.</p>
-    <a class="hub-panel__close" href="#brand" aria-label="Schließen">×</a>
-  </section>
+  <main class="blocks" id="building-blocks">
+    <header class="blocks__intro">
+      <p class="blocks__eyebrow">AI Ecosystem</p>
+      <h1 class="blocks__title">Building Blocks</h1>
+    </header>
+
+    <ul class="blocks__list">
+      <li class="block" id="block-vision" style="--tone: #a78bfa">
+        <div class="block__main">
+          <h2 class="block__name">AI Vision &amp; Goals</h2>
+          <p class="block__desc">Richtung und Zielbild – wofür AI im Unternehmen existieren soll.</p>
+        </div>
+        <ul class="block__parts" aria-label="Teilbereiche">
+          <li class="block__slot" aria-hidden="true"></li>
+          <li class="block__slot" aria-hidden="true"></li>
+          <li class="block__slot" aria-hidden="true"></li>
+        </ul>
+      </li>
+
+      <li class="block" id="block-applications" style="--tone: #22d3ee">
+        <div class="block__main">
+          <h2 class="block__name">AI Applications</h2>
+          <p class="block__desc">Konkrete Produkte und Oberflächen, in denen AI im Alltag ankommt.</p>
+        </div>
+        <ul class="block__parts" aria-label="Teilbereiche">
+          <li class="block__slot" aria-hidden="true"></li>
+          <li class="block__slot" aria-hidden="true"></li>
+          <li class="block__slot" aria-hidden="true"></li>
+        </ul>
+      </li>
+
+      <li class="block" id="block-lab" style="--tone: #c084fc">
+        <div class="block__main">
+          <h2 class="block__name">AI Lab &amp; Experimentation</h2>
+          <p class="block__desc">Experimentieren, Prototypen und Hypothesen prüfen, bevor etwas skaliert.</p>
+        </div>
+        <ul class="block__parts" aria-label="Teilbereiche">
+          <li class="block__slot" aria-hidden="true"></li>
+          <li class="block__slot" aria-hidden="true"></li>
+          <li class="block__slot" aria-hidden="true"></li>
+        </ul>
+      </li>
+
+      <li class="block" id="block-orchestration" style="--tone: #60a5fa">
+        <div class="block__main">
+          <h2 class="block__name">Multi-Agent Orchestration</h2>
+          <p class="block__desc">Mehrere Agents koordinieren – komplexe Aufgaben verteilt und gesteuert.</p>
+        </div>
+        <ul class="block__parts" aria-label="Teilbereiche">
+          <li class="block__slot" aria-hidden="true"></li>
+          <li class="block__slot" aria-hidden="true"></li>
+          <li class="block__slot" aria-hidden="true"></li>
+        </ul>
+      </li>
+
+      <li class="block" id="block-agent-design" style="--tone: #38bdf8">
+        <div class="block__main">
+          <h2 class="block__name">Single AI Agent Design</h2>
+          <p class="block__desc">Aufbau einzelner Agents – Architektur, Tools und Ablaufsteuerung.</p>
+        </div>
+        <ul class="block__parts" aria-label="Teilbereiche">
+          <li class="block__part">Langchain</li>
+          <li class="block__part">LangGraph</li>
+          <li class="block__slot" aria-hidden="true"></li>
+        </ul>
+      </li>
+
+      <li class="block" id="block-context" style="--tone: #818cf8">
+        <div class="block__main">
+          <h2 class="block__name">
+            <a href="/contextandmemory">Context &amp; Memory Management</a>
+          </h2>
+          <p class="block__desc">Wissen, Historie und Kontext – damit AI nicht bei Null anfängt.</p>
+        </div>
+        <ul class="block__parts" aria-label="Teilbereiche">
+          <li><a class="block__part" href="/contextandmemory/rag">RAG</a></li>
+          <li class="block__slot" aria-hidden="true"></li>
+          <li class="block__slot" aria-hidden="true"></li>
+        </ul>
+      </li>
+
+      <li class="block" id="block-llm" style="--tone: #94a3b8">
+        <div class="block__main">
+          <h2 class="block__name">LLM Integration</h2>
+          <p class="block__desc">Modelle anbinden, evaluieren und im Stack nutzbar machen.</p>
+        </div>
+        <ul class="block__parts" aria-label="Teilbereiche">
+          <li class="block__part">Local LLM</li>
+          <li class="block__slot" aria-hidden="true"></li>
+          <li class="block__slot" aria-hidden="true"></li>
+        </ul>
+      </li>
+
+      <li class="block" id="block-coding" style="--tone: #e879f9">
+        <div class="block__main">
+          <h2 class="block__name">AI-Powered Coding</h2>
+          <p class="block__desc">Entwicklung mit AI – vom Entwurf bis zur Integration in den Code.</p>
+        </div>
+        <ul class="block__parts" aria-label="Teilbereiche">
+          <li class="block__slot" aria-hidden="true"></li>
+          <li class="block__slot" aria-hidden="true"></li>
+          <li class="block__slot" aria-hidden="true"></li>
+        </ul>
+      </li>
+
+      <li class="block" id="block-data" style="--tone: #67e8f9">
+        <div class="block__main">
+          <h2 class="block__name">Data Factory</h2>
+          <p class="block__desc">Daten aufbereiten, verbinden und bereitstellen – Fundament jeder AI-Strecke.</p>
+        </div>
+        <ul class="block__parts" aria-label="Teilbereiche">
+          <li class="block__part">Vector Embedding</li>
+          <li class="block__slot" aria-hidden="true"></li>
+          <li class="block__slot" aria-hidden="true"></li>
+        </ul>
+      </li>
+
+      <li class="block" id="block-evaluation" style="--tone: #7dd3fc">
+        <div class="block__main">
+          <h2 class="block__name">Evaluation &amp; Testing</h2>
+          <p class="block__desc">Qualität und Verhalten von AI-Systemen systematisch prüfen.</p>
+        </div>
+        <ul class="block__parts" aria-label="Teilbereiche">
+          <li class="block__slot" aria-hidden="true"></li>
+          <li class="block__slot" aria-hidden="true"></li>
+          <li class="block__slot" aria-hidden="true"></li>
+        </ul>
+      </li>
+
+      <li class="block" id="block-services" style="--tone: #4ade80">
+        <div class="block__main">
+          <h2 class="block__name">AI Services</h2>
+          <p class="block__desc">Wiederverwendbare AI-Dienste und Pipelines unter den Anwendungen.</p>
+        </div>
+        <ul class="block__parts" aria-label="Teilbereiche">
+          <li class="block__slot" aria-hidden="true"></li>
+          <li class="block__slot" aria-hidden="true"></li>
+          <li class="block__slot" aria-hidden="true"></li>
+        </ul>
+      </li>
+
+      <li class="block" id="block-infra" style="--tone: #93c5fd">
+        <div class="block__main">
+          <h2 class="block__name">AI Infrastructure &amp; Deployment</h2>
+          <p class="block__desc">Vom Prototyp in Produktion: Infrastruktur, Cloud und Release-Pfade.</p>
+        </div>
+        <ul class="block__parts" aria-label="Teilbereiche">
+          <li class="block__slot" aria-hidden="true"></li>
+          <li class="block__slot" aria-hidden="true"></li>
+          <li class="block__slot" aria-hidden="true"></li>
+        </ul>
+      </li>
+
+      <li class="block" id="block-security" style="--tone: #f87171">
+        <div class="block__main">
+          <h2 class="block__name">Security Fortress</h2>
+          <p class="block__desc">Schutz, Rechte und Guardrails – nur so offen, wie verantwortbar.</p>
+        </div>
+        <ul class="block__parts" aria-label="Teilbereiche">
+          <li class="block__part">SSH Key &amp; Fail2Ban</li>
+          <li class="block__slot" aria-hidden="true"></li>
+          <li class="block__slot" aria-hidden="true"></li>
+        </ul>
+      </li>
+
+      <li class="block" id="block-performance" style="--tone: #2dd4bf">
+        <div class="block__main">
+          <h2 class="block__name">AI Performance Cockpit</h2>
+          <p class="block__desc">Qualität, Kosten und Wirkung messbar machen – statt Bauchgefühl.</p>
+        </div>
+        <ul class="block__parts" aria-label="Teilbereiche">
+          <li class="block__slot" aria-hidden="true"></li>
+          <li class="block__slot" aria-hidden="true"></li>
+          <li class="block__slot" aria-hidden="true"></li>
+        </ul>
+      </li>
+
+      <li class="block" id="block-org" style="--tone: #5eead4">
+        <div class="block__main">
+          <h2 class="block__name">AI First Organization</h2>
+          <p class="block__desc">Organisation, Prozesse und Kultur um AI herum ausrichten.</p>
+        </div>
+        <ul class="block__parts" aria-label="Teilbereiche">
+          <li class="block__slot" aria-hidden="true"></li>
+          <li class="block__slot" aria-hidden="true"></li>
+          <li class="block__slot" aria-hidden="true"></li>
+        </ul>
+      </li>
+    </ul>
+  </main>
 </body>
 </html>
