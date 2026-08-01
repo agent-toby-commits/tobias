@@ -36,6 +36,21 @@ def ueber_mich():
     return page_response("ueber-mich.html")
 
 
+@app.get("/glossar")
+def glossar():
+    return page_response("glossar.html")
+
+
+@app.get("/ailab")
+def ailab():
+    return page_response("ailab", "index.html")
+
+
+@app.get("/ailab/leanprototyping")
+def ailab_lean_prototyping():
+    return page_response("ailab", "leanprototyping.html")
+
+
 @app.get("/contextandmemory")
 def context_and_memory():
     return page_response("contextandmemory", "index.html")

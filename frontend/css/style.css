@@ -179,6 +179,24 @@ body {
   line-height: 1.05;
 }
 
+.blocks__links {
+  margin: 1rem 0 0;
+}
+
+.blocks__links a {
+  color: var(--accent);
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 0.05rem;
+}
+
+.blocks__links a:hover,
+.blocks__links a:focus-visible {
+  color: var(--ink);
+}
+
 .blocks__list {
   list-style: none;
   margin: 0 auto;
@@ -333,6 +351,10 @@ a.block__part:focus-visible {
   text-underline-offset: 0.15em;
 }
 
+.page-nav__dot {
+  opacity: 0.55;
+}
+
 .page-eyebrow {
   margin: 0 0 0.45rem;
   color: var(--accent);
@@ -405,6 +427,209 @@ a.block__part:focus-visible {
 
 .page-section--draft {
   color: var(--ink-soft);
+}
+
+.page-main--wide {
+  max-width: 52rem;
+}
+
+.topic-hero {
+  margin: 0 0 2rem;
+}
+
+.topic-hero img {
+  display: block;
+  width: min(100%, 22rem);
+  height: auto;
+  border-radius: 2px;
+  background: #000;
+}
+
+.topic-article h2 {
+  margin: 2rem 0 0.75rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+}
+
+.topic-article h2:first-child {
+  margin-top: 0;
+}
+
+.topic-article p,
+.topic-article li {
+  color: var(--ink-soft);
+  font-size: 1.02rem;
+  line-height: 1.7;
+}
+
+.topic-article p {
+  margin: 0 0 1rem;
+  max-width: 42rem;
+}
+
+.topic-article ul {
+  margin: 0 0 1.15rem;
+  padding-left: 1.2rem;
+  max-width: 42rem;
+}
+
+.topic-article li {
+  margin: 0 0 0.4rem;
+}
+
+.topic-article a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+.topic-article a:hover,
+.topic-article a:focus-visible {
+  color: var(--ink);
+  border-bottom-color: currentColor;
+}
+
+.topic-article strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.topic-back {
+  margin: 2.25rem 0 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  align-items: center;
+  font-size: 0.92rem;
+}
+
+.topic-back a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 0.05rem;
+}
+
+.topic-back a:hover,
+.topic-back a:focus-visible {
+  color: var(--ink);
+}
+
+/* --- Glossar --- */
+
+.page-header--glossary {
+  max-width: 68rem;
+  padding-bottom: 1.5rem;
+}
+
+.glossary-index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 1.5rem;
+}
+
+.glossary-index a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.25rem;
+  min-height: 2.25rem;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.glossary-index a:hover,
+.glossary-index a:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.glossary {
+  max-width: 68rem;
+  margin: 0 auto;
+  padding: 0 1.25rem 4.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.glossary-entry {
+  display: grid;
+  grid-template-columns: minmax(10rem, 16rem) minmax(0, 1fr);
+  gap: 1.5rem 2rem;
+  align-items: start;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--line);
+  scroll-margin-top: 1.5rem;
+}
+
+.glossary-entry__media {
+  margin: 0;
+}
+
+.glossary-entry__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 2px;
+  background: #000;
+}
+
+.glossary-entry__term {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.45rem, 3vw, 1.85rem);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.glossary-entry__copy p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 1.02rem;
+  line-height: 1.7;
+  max-width: 40rem;
+}
+
+.glossary-entry__back {
+  margin-top: 1.25rem !important;
+}
+
+.glossary-entry__back a {
+  color: var(--accent);
+  font-size: 0.92rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 0.05rem;
+}
+
+.glossary-entry__back a:hover,
+.glossary-entry__back a:focus-visible {
+  color: var(--ink);
+}
+
+@media (max-width: 720px) {
+  .glossary-entry {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .glossary-entry__media {
+    max-width: 14rem;
+  }
 }
 
 /* --- Über mich --- */

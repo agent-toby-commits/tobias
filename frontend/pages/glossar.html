@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glossar · Tobias Lampe</title>
+  <meta name="description" content="Glossar zu AI, Infrastruktur und Full-Stack-Werkzeugen – alphabetisch und wachsend.">
+  <link rel="canonical" href="https://tobiaslampe.de/glossar">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="page page--glossary">
+  <header class="page-header page-header--glossary">
+    <p class="page-nav">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <span>Glossar</span>
+      <span class="page-nav__dot" aria-hidden="true">·</span>
+      <a href="/ueber-mich">Über mich</a>
+    </p>
+    <p class="page-eyebrow">Referenz</p>
+    <h1 class="page-title">Glossar</h1>
+    <p class="page-lede">Begriffsklärungen rund um AI, Infrastruktur und Full-Stack – alphabetisch, Eintrag für Eintrag.</p>
+
+    <nav class="glossary-index" aria-label="Alphabetische Sprungmarken">
+      <a href="#caddy">C</a>
+      <a href="#fastapi">F</a>
+    </nav>
+  </header>
+
+  <main class="glossary">
+    <article class="glossary-entry" id="caddy">
+      <figure class="glossary-entry__media">
+        <img
+          src="/assets/glossar/caddy.jpeg"
+          width="1024"
+          height="1024"
+          alt="Lego-Illustration: Caddy als sicherer Routing-Hub mit Schloss und mehreren Ausgängen"
+          decoding="async"
+        >
+      </figure>
+      <div class="glossary-entry__copy">
+        <h2 class="glossary-entry__term">Caddy</h2>
+        <p>Caddy ist ein moderner, performanter Webserver und Reverse Proxy. Er steuert das Routing meiner verschiedenen Webprojekte, bündelt unterschiedliche Dienste unter sauberen Domains und übernimmt automatisch die HTTPS-Verschlüsselung. Für AI Labs eignet er sich hervorragend, um neue KI-Anwendungen, FastAPI-Services, Gradio-Apps oder Agenten schnell, sicher und produktionsnah bereitzustellen. Wachsen daraus unternehmenskritische Plattformen, kommen meist zusätzliche Komponenten zum Einsatz. Geht es speziell um intelligentes Routing zwischen verschiedenen LLM-Providern, Prompt-Management oder AI-spezifische Policies, setzt man auf spezialisierte AI Gateways.</p>
+        <p class="glossary-entry__back"><a href="/">Zurück zur Home</a></p>
+      </div>
+    </article>
+
+    <article class="glossary-entry" id="fastapi">
+      <figure class="glossary-entry__media">
+        <img
+          src="/assets/glossar/fastapi.jpeg"
+          width="1024"
+          height="1024"
+          alt="Lego-Illustration: FastAPI als Token-Pipeline mit Eingabe, Verarbeitung und Streaming-Ausgabe"
+          decoding="async"
+        >
+      </figure>
+      <div class="glossary-entry__copy">
+        <h2 class="glossary-entry__term">FastAPI</h2>
+        <p>Schlanke Schnittstelle, um KI-Modelle und Python-basierte Apps sofort in einen auswertbaren Web-Dienst zu verwandeln. Hervorragend geeignet für das Realtime-Streaming von Tokens (Wort-für-Wort-Ausgabe), automatische Datenvalidierung VOR dem Start rechenintensiven KI Codes und automatische Testumgebung (allerdings keine rein visuellen Prototypen, dafür wird dann zB Streamlit oder Gradio benötigt).</p>
+        <p class="glossary-entry__back"><a href="/">Zurück zur Home</a></p>
+      </div>
+    </article>
+  </main>
+</body>
+</html>
