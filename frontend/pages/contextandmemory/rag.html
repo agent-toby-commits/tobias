@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body class="page">
-  <header class="page-header">
+  <header class="page-header page-header--wide">
     <p class="page-nav">
       <a href="/">Home</a>
       <span aria-hidden="true">/</span>
@@ -26,16 +26,44 @@
   </header>
 
   <main class="page-main page-main--wide">
-    <figure class="topic-hero">
+    <figure class="topic-figure topic-figure--lead">
       <img
-        src="/assets/contextandmemory/rag.jpeg"
-        width="1024"
+        src="/assets/contextandmemory/rag-chain.png"
+        width="1536"
         height="1024"
-        alt="Lego-Illustration: RAG mit Query, Retrieval, Vector Database und Augmentation"
+        alt="Schema der RAG-Chain: Retrieval, Kontext und Generierung"
         decoding="async"
         fetchpriority="high"
       >
     </figure>
+
+    <article class="topic-article">
+      <h2>Warum RAG?</h2>
+      <p>KI-Chatbots entscheiden ohne Anleitung quasi selbst, welche Quellen sie heranziehen – Trainingsdaten und gegebenenfalls Websearch. Oft reicht dieses Wissen nicht aus oder die herangezogenen Quellen sind nicht 100 % stimmig. RAG (Retrieval-Augmented Generation) löst genau dieses Problem, indem die Antwort auf Basis eigener Wissensquellen generiert wird.</p>
+
+      <h2>Demo-Anwendungsfall</h2>
+      <p>Die folgende Demo zeigt auf extreme Weise, wie sich Antworten verändern, wenn eine spezielle <em>Source of Truth</em> bereitgestellt wird – in diesem Fall die Weisheit der Upanischaden. Ich finde solche Anwendungsfälle sehr interessant: Man kann auf diese Weise quasi in einen Dialog mit seinen Lieblingsbüchern treten. Natürlich gibt es darüber hinaus viele geschäftliche Use Cases, beispielsweise die Verknüpfung eines Gen-AI-Chatbots mit internen Wissensdatenbanken.</p>
+
+      <h2>Grundlogik von RAG</h2>
+      <p>RAG ist umso interessanter, je umfangreicher die Quellen sind, die man einem Sprachmodell zur Verfügung stellen möchte. Würde das LLM ohne RAG versuchen, User-Fragen auf Basis sämtlicher Quellen zu beantworten, wäre das eine sehr rechenintensive und damit teure Angelegenheit – bis hin zur Überforderung des Modells (Stichwort <em>Context Window</em>).</p>
+
+      <p>Retrieval-Augmented Generation siebt die verfügbaren Quellen deshalb zunächst nach <strong>Relevanz</strong>. Dazu wird die vektorisierte User-Frage auf Ähnlichkeit mit den bereits vektorisierten Quelltexten untersucht. Nur diese relevanten Textabschnitte werden anschließend zusammen mit der ursprünglichen User-Frage als Prompt an das LLM übergeben. Das Sprachmodell muss dadurch nicht mehr alle Dokumente verarbeiten, sondern erhält bereits den passenden Kontext und kann daraus die Antwort generieren.</p>
+
+      <h2>Zukünftige Rolle von RAG und Ausblick</h2>
+      <p>Daher wird RAG und die beschriebene Grundlogik auch in den kommenden Jahren ein wichtiges Instrument bleiben, um das endliche Context Window effizient zu managen. Gleichzeitig entwickelt sich das Thema rasant weiter und geht inzwischen weit über die reine Vektorsuche hinaus.</p>
+
+      <p>Für Unternehmen werden dabei insbesondere folgende Themen immer wichtiger:</p>
+
+      <ul>
+        <li><strong>Hybride Suche:</strong> Kombination aus klassischer Volltextsuche und semantischer Vektorsuche, um relevantere Ergebnisse zu erhalten.</li>
+        <li><strong>Agentic RAG:</strong> KI-Agenten, die eigenständig mehrere Suchschritte durchführen und Informationen aus verschiedenen Wissensquellen zusammenführen.</li>
+        <li><strong>Berechtigungen &amp; Security:</strong> Chatbots sollen ausschließlich auf Informationen zugreifen können, für die ein Nutzer tatsächlich freigeschaltet ist.</li>
+        <li><strong>Evaluation &amp; Qualitätssicherung:</strong> Unternehmen müssen nachvollziehen können, warum eine Antwort entstanden ist und ob die richtigen Quellen verwendet wurden.</li>
+        <li><strong>Multimodales RAG:</strong> Künftig werden nicht nur Texte, sondern auch Bilder, Tabellen, Präsentationen oder Videos als Wissensquelle genutzt.</li>
+      </ul>
+
+      <p>RAG entwickelt sich damit zunehmend zu einer zentralen Architekturkomponente für Enterprise AI. Die eigentliche Herausforderung besteht künftig weniger darin, ein LLM anzubinden, sondern darin, hochwertige, aktuelle und vertrauenswürdige Wissensquellen intelligent verfügbar zu machen.</p>
+    </article>
 
     <section class="live-demo" aria-label="RAG Demo">
       <div class="live-demo__frame-wrap">
@@ -56,18 +84,7 @@
         })();
       </script>
 
-      <h3 class="live-demo__code-title">RAG Demo Flussdiagramm und Quellcode (ohne Imports, Quelltext bereits vektorisiert)</h3>
-
-      <figure class="topic-figure">
-        <img
-          src="/assets/contextandmemory/rag-chain.png"
-          width="1536"
-          height="1024"
-          alt="Schema der RAG-Chain: Retrieval, Kontext und Generierung"
-          decoding="async"
-        >
-      </figure>
-
+      <h3 class="live-demo__code-title">Quellcode (ohne Imports, Quelltext bereits vektorisiert)</h3>
       <pre class="code-block" tabindex="0"><code>
 # ==========================================
 # 1. BEREITS EXISTIERENDE VEKTORDATENBANK LADEN
@@ -125,41 +142,11 @@ if __name__ == "__main__":
 </code></pre>
     </section>
 
-    <article class="topic-article">
-      <h2>Warum RAG?</h2>
-      <p>KI-Chatbots entscheiden ohne Anleitung quasi selbst, welche Quellen sie heranziehen – Trainingsdaten und gegebenenfalls Websearch. Oft reicht dieses Wissen nicht aus oder die herangezogenen Quellen sind nicht 100 % stimmig. RAG (Retrieval-Augmented Generation) löst genau dieses Problem, indem die Antwort auf Basis eigener Wissensquellen generiert wird.</p>
-      
-      <h2>Demo-Anwendungsfall</h2>
-      <p>Die obige Demo zeigt auf extreme Weise, wie sich Antworten verändern, wenn eine spezielle <em>Source of Truth</em> bereitgestellt wird – in diesem Fall die Weisheit der Upanischaden. Ich finde solche Anwendungsfälle sehr interessant: Man kann auf diese Weise quasi in einen Dialog mit seinen Lieblingsbüchern treten. Natürlich gibt es darüber hinaus viele geschäftliche Use Cases, beispielsweise die Verknüpfung eines Gen-AI-Chatbots mit internen Wissensdatenbanken.</p>
-      
-      <h2>Grundlogik von RAG</h2>
-      <p>RAG ist umso interessanter, je umfangreicher die Quellen sind, die man einem Sprachmodell zur Verfügung stellen möchte. Würde das LLM ohne RAG versuchen, User-Fragen auf Basis sämtlicher Quellen zu beantworten, wäre das eine sehr rechenintensive und damit teure Angelegenheit – bis hin zur Überforderung des Modells (Stichwort <em>Context Window</em>).</p>
-      
-      <p>Retrieval-Augmented Generation siebt die verfügbaren Quellen deshalb zunächst nach <strong>Relevanz</strong>. Dazu wird die vektorisierte User-Frage auf Ähnlichkeit mit den bereits vektorisierten Quelltexten untersucht. Nur diese relevanten Textabschnitte werden anschließend zusammen mit der ursprünglichen User-Frage als Prompt an das LLM übergeben. Das Sprachmodell muss dadurch nicht mehr alle Dokumente verarbeiten, sondern erhält bereits den passenden Kontext und kann daraus die Antwort generieren.</p>
-      
-      <h2>Zukünftige Rolle von RAG und Ausblick</h2>
-      <p>Daher wird RAG und die beschriebene Grundlogik auch in den kommenden Jahren ein wichtiges Instrument bleiben, um das endliche Context Window effizient zu managen. Gleichzeitig entwickelt sich das Thema rasant weiter und geht inzwischen weit über die reine Vektorsuche hinaus.</p>
-      
-      <p>Für Unternehmen werden dabei insbesondere folgende Themen immer wichtiger:</p>
-      
-      <ul>
-        <li><strong>Hybride Suche:</strong> Kombination aus klassischer Volltextsuche und semantischer Vektorsuche, um relevantere Ergebnisse zu erhalten.</li>
-        <li><strong>Agentic RAG:</strong> KI-Agenten, die eigenständig mehrere Suchschritte durchführen und Informationen aus verschiedenen Wissensquellen zusammenführen.</li>
-        <li><strong>Berechtigungen &amp; Security:</strong> Chatbots sollen ausschließlich auf Informationen zugreifen können, für die ein Nutzer tatsächlich freigeschaltet ist.</li>
-        <li><strong>Evaluation &amp; Qualitätssicherung:</strong> Unternehmen müssen nachvollziehen können, warum eine Antwort entstanden ist und ob die richtigen Quellen verwendet wurden.</li>
-        <li><strong>Multimodales RAG:</strong> Künftig werden nicht nur Texte, sondern auch Bilder, Tabellen, Präsentationen oder Videos als Wissensquelle genutzt.</li>
-      </ul>
-      
-      <p>RAG entwickelt sich damit zunehmend zu einer zentralen Architekturkomponente für Enterprise AI. Die eigentliche Herausforderung besteht künftig weniger darin, ein LLM anzubinden, sondern darin, hochwertige, aktuelle und vertrauenswürdige Wissensquellen intelligent verfügbar zu machen.</p>
-
-    
-
-      <p class="topic-back">
-        <a href="/contextandmemory">Zurück zu Context &amp; Memory Management</a>
-        <span class="page-nav__dot" aria-hidden="true">·</span>
-        <a href="/">Zurück zur Home</a>
-      </p>
-    </article>
+    <p class="topic-back">
+      <a href="/contextandmemory">Zurück zu Context &amp; Memory Management</a>
+      <span class="page-nav__dot" aria-hidden="true">·</span>
+      <a href="/">Zurück zur Home</a>
+    </p>
   </main>
 </body>
 </html>
