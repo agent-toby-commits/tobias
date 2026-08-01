@@ -445,6 +445,19 @@ a.block__part:focus-visible {
   background: #000;
 }
 
+.topic-figure {
+  margin: 0.75rem 0 1.5rem;
+}
+
+.topic-figure img {
+  display: block;
+  width: 100%;
+  max-width: 48rem;
+  height: auto;
+  border-radius: 2px;
+  background: #000;
+}
+
 .topic-article h2 {
   margin: 2rem 0 0.75rem;
   font-family: var(--font-display);
@@ -537,7 +550,7 @@ a.block__part:focus-visible {
 .live-demo__frame {
   display: block;
   width: 100%;
-  height: min(72vh, 42rem);
+  height: min(58vh, 34rem);
   border: 0;
   background: transparent;
 }
