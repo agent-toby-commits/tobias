@@ -31,6 +31,11 @@ def index():
     return FileResponse(FRONTEND_DIR / "index.html")
 
 
+@app.get("/ueber-mich")
+def ueber_mich():
+    return page_response("ueber-mich.html")
+
+
 @app.get("/contextandmemory")
 def context_and_memory():
     return page_response("contextandmemory", "index.html")
