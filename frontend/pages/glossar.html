@@ -27,11 +27,13 @@
     <p class="page-lede">Begriffsklärungen rund um AI, Infrastruktur und Full-Stack – alphabetisch, Eintrag für Eintrag.</p>
 
     <nav class="glossary-index" aria-label="Alphabetische Sprungmarken">
+      <a href="#api">A</a>
       <a href="#caddy">C</a>
       <a href="#docker">D</a>
       <a href="#embedding">E</a>
       <a href="#fastapi">F</a>
       <a href="#git">G</a>
+      <a href="#harness-engineering">H</a>
       <a href="#kubernetes">K</a>
       <a href="#langchain">L</a>
       <a href="#prompt">P</a>
@@ -41,6 +43,14 @@
   </header>
 
   <main class="glossary">
+    <article class="glossary-entry glossary-entry--text" id="api">
+      <div class="glossary-entry__copy">
+        <h2 class="glossary-entry__term">API</h2>
+        <p>Eine API (Application Programming Interface) ist eine klar definierte Schnittstelle, über die Programme miteinander sprechen – typischerweise per HTTP mit Anfragen und Antworten im JSON-Format. Für KI-Agents sind APIs oft die Brücke zur Außenwelt: Wetterdaten abrufen, Tickets anlegen, Dateien schreiben oder Modelle aufrufen. Viele „Tools“ eines Agents sind fachlich nichts anderes als gekapselte API-Aufrufe bzw. Python-Funktionen, die dem LLM als Schema bekannt gemacht werden.</p>
+        <p class="glossary-entry__back"><a href="/">Zurück zur Home</a></p>
+      </div>
+    </article>
+
     <article class="glossary-entry" id="caddy">
       <figure class="glossary-entry__media">
         <img
@@ -107,6 +117,22 @@
       </div>
     </article>
 
+    <article class="glossary-entry glossary-entry--text" id="harness-engineering">
+      <div class="glossary-entry__copy">
+        <h2 class="glossary-entry__term">Harness Engineering</h2>
+        <p>Harness Engineering meint die Disziplin, einem Agenten die richtigen Werkzeuge in der richtigen Form bereitzustellen – und gefährliche oder unnötige Zugriffe wegzulassen. Dazu gehören Tool-Auswahl, klare Beschreibungen/Schemas, Guardrails und der Ablauf, in dem Tools geplant und ausgeführt werden. Der Agent wird dadurch handlungsfähig, bleibt aber in einem kontrollierten Rahmen. Mehr unter <a href="/singleagent/tooling">Single AI Agent Design · Tooling</a>.</p>
+        <p class="glossary-entry__back"><a href="/">Zurück zur Home</a></p>
+      </div>
+    </article>
+
+    <article class="glossary-entry glossary-entry--text" id="human-in-the-loop">
+      <div class="glossary-entry__copy">
+        <h2 class="glossary-entry__term">Human in the Loop</h2>
+        <p>Human in the Loop (HITL) bedeutet, dass ein Mensch an kritischen Stellen im Agenten-Ablauf eingreift – etwa um Ergebnisse freizugeben, Pläne zu bewerten oder den nächsten Schritt freizuschalten. Statt vollständiger Autonomie liefert der Agent Vorschläge; der Mensch entscheidet über Erfolg, Abbruch oder Fortsetzung. Das erhöht Kontrolle und Sicherheit, besonders wenn Aktionen Nebenwirkungen haben können. In der Escape-Demo übernimmt der Nutzer genau diese Rolle als Game Master.</p>
+        <p class="glossary-entry__back"><a href="/">Zurück zur Home</a></p>
+      </div>
+    </article>
+
     <article class="glossary-entry glossary-entry--text" id="kubernetes">
       <div class="glossary-entry__copy">
         <h2 class="glossary-entry__term">Kubernetes</h2>
@@ -160,6 +186,14 @@
       <div class="glossary-entry__copy">
         <h2 class="glossary-entry__term">RAG</h2>
         <p>RAG (Retrieval-Augmented Generation) verbessert generative KI, indem Antworten auf eigenen Wissensquellen basieren – nicht nur auf Trainingsdaten oder Websuche. Zuerst sucht das System passende Textstellen (Retrieval), dann fließen diese zusammen mit der Frage in den Prompt (Augmentation), und erst danach erzeugt das LLM die Antwort (Generation). So bleibt das begrenzte Context Window nutzbar, selbst wenn die Gesamtdatenmenge riesig ist. Mehr dazu unter <a href="/contextandmemory/rag">Context &amp; Memory · RAG</a>.</p>
+        <p class="glossary-entry__back"><a href="/">Zurück zur Home</a></p>
+      </div>
+    </article>
+
+    <article class="glossary-entry glossary-entry--text" id="react">
+      <div class="glossary-entry__copy">
+        <h2 class="glossary-entry__term">ReAct</h2>
+        <p>ReAct steht für Reason + Act: Das Modell plant und reflektiert (Reason), führt dann Aktionen über Werkzeuge aus (Act) und kann den Zyklus wiederholen. Im Gegensatz zu rein deterministischer Software bewertet der Agent die Situation semantisch und wählt Tools selbst. Vollautonome Varianten beobachten den Erfolg selbst; in vielen Demos – so auch unter Tooling – ersetzt <a href="/glossar#human-in-the-loop">Human in the Loop</a> diese Bewertung. Mehr unter <a href="/singleagent/tooling">Single AI Agent Design · Tooling</a>.</p>
         <p class="glossary-entry__back"><a href="/">Zurück zur Home</a></p>
       </div>
     </article>

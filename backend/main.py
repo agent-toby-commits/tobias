@@ -51,6 +51,11 @@ def ailab_lean_prototyping():
     return page_response("ailab", "leanprototyping.html")
 
 
+@app.get("/ailab/demos")
+def ailab_demos():
+    return page_response("ailab", "demos.html")
+
+
 @app.get("/contextandmemory")
 def context_and_memory():
     return page_response("contextandmemory", "index.html")

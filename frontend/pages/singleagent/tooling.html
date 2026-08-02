@@ -38,17 +38,23 @@
     </figure>
 
     <article class="topic-article">
-      <h2>Was ist Tooling &amp; Harness Engineering?</h2>
-      <p>Inhalt folgt – wie Agents Werkzeuge bekommen, Aufrufe strukturiert werden und ein Harness den Ablauf steuert.</p>
-
-      <h2>Demo-Anwendungsfall</h2>
-      <p>Die folgende Demo zeigt <a href="/glossar#langchain">Tool Binding</a> in der Praxis: Ein Agent erhält fünf zufällige Werkzeuge und darf beliebig viele davon in einem sequentiellen Fluchtplan kombinieren. Du entscheidest anschließend, ob die Flucht gelingt.</p>
-
-      <h2>Wann es sinnvoll ist</h2>
-      <p>Inhalt folgt.</p>
-
-      <h2>Kernkonzepte</h2>
-      <p>Inhalt folgt.</p>
+      <h2>ReAct-Logik als Basis eines Agenten</h2>
+      <p>Klassische Software und Automatisierung <strong>sind deterministisch</strong>: Sie prüfen Bedingungen und führen abhängig von deren Status fest definierte Befehle aus.</p>
+      <p>KI-Agenten entscheiden dagegen eigenständig, welche Befehle ausgeführt werden – auf Basis einer <strong>semantischen Bewertung der aktuellen Situation</strong>. Diese reflektierte Entscheidungsfindung wird als <strong>Reason</strong> bezeichnet, die Ausführung als <strong>Act</strong>. Das Wechselspiel aus Planung und Ausführung wird als <a href="/glossar#react"><strong>ReAct</strong></a> bezeichnet.</p>
+      <p>Ein LLM allein kann bereits planen und reflektieren. Erst durch den Zugriff auf <strong>Werkzeuge (Tools)</strong> wird daraus ein handlungsfähiger Agent. Diese Werkzeuge können beispielsweise den Zugriff auf externe Datenquellen oder den Schreibzugriff auf Dateien ermöglichen. Technisch handelt es sich dabei meist um gewöhnliche Python-Funktionen oder <a href="/glossar#api">APIs</a>, die dem LLM über ein standardisiertes Schema bekannt gemacht werden.</p>
+      <p>Im oben dargestellten Flussdiagramm läuft dieser Prozess wie folgt ab:</p>
+      <ol>
+        <li>Die verfügbaren Werkzeuge werden bereitgestellt.</li>
+        <li>Der Agent plant abhängig von der Aufgabe, welche Werkzeuge eingesetzt werden sollen.</li>
+        <li>Anschließend führt er die ausgewählten Werkzeuge aus.</li>
+        <li>Ein vollständig autonomer Agent würde nun den Erfolg seiner Aktionen selbst beobachten und daraus den nächsten Planungsschritt ableiten.</li>
+        <li>Das hier gezeigte Ablaufdiagramm verzichtet bewusst auf diese autonome Bewertung.</li>
+        <li>Stattdessen gibt ein Benutzer Feedback, ob das gewünschte Ziel erreicht wurde (<a href="/glossar#human-in-the-loop"><strong>Human in the Loop</strong></a>).</li>
+        <li>Meldet der Benutzer Erfolg, endet der Ablauf.</li>
+        <li>Andernfalls wird entschieden, ob der Agent mit den vorhandenen Werkzeugen einen neuen Plan erstellt (<strong>Continue</strong>) oder zunächst eine neue Werkzeugauswahl erhält (<strong>Resume</strong>). Anschließend beginnt der Zyklus erneut.</li>
+      </ol>
+      <p>Die <strong>Auswahl und Bereitstellung geeigneter Tools</strong> nimmt einen zentralen Platz bei der Entwicklung von Agenten ein. Diese Disziplin wird häufig als <a href="/glossar#harness-engineering"><strong>Harness Engineering</strong></a> bezeichnet.</p>
+      <p>Oft wird die Frage gestellt, welche Aufgaben dem Menschen überhaupt noch bleiben, wenn Agenten scheinbar „alles“ übernehmen. Eine zentrale Aufgabe besteht gerade darin, sicherzustellen, dass der Agent Zugriff auf die für seine Aufgabe notwendigen Werkzeuge erhält – und gleichzeitig keinen Zugriff auf Werkzeuge bekommt, die nicht erforderlich sind oder mit denen er unbeabsichtigt Schaden anrichten könnte.</p>
     </article>
 
     <section class="live-demo live-demo--tooling" aria-label="Tooling Demo">
