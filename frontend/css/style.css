@@ -657,6 +657,11 @@ a.block__part:focus-visible {
   border-top: none;
 }
 
+#demo,
+.live-demo__frame-wrap#demo {
+  scroll-margin-top: 1.25rem;
+}
+
 .live-demo__title {
   margin: 0 0 0.65rem;
   font-family: var(--font-display);
@@ -688,6 +693,20 @@ a.block__part:focus-visible {
   height: min(58vh, 34rem);
   border: 0;
   background: transparent;
+}
+
+@media (max-width: 720px) {
+  .live-demo__frame-wrap {
+    margin-left: -1.25rem;
+    margin-right: -1.25rem;
+    width: calc(100% + 2.5rem);
+    max-width: none;
+  }
+
+  .live-demo__frame {
+    height: 100dvh;
+    min-height: 100dvh;
+  }
 }
 
 .live-demo__code-title {
