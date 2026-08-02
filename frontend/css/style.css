@@ -484,6 +484,19 @@ a.block__part:focus-visible {
   margin-top: 0;
 }
 
+.topic-article h3 {
+  margin: 1.5rem 0 0.65rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.08rem;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.topic-article h3:first-of-type {
+  margin-top: 1.15rem;
+}
+
 .topic-article p,
 .topic-article li {
   color: var(--ink-soft);
@@ -586,6 +599,24 @@ a.block__part:focus-visible {
   margin: 0 0 2.5rem;
   padding: 0;
   border-top: none;
+}
+
+.live-demo__title {
+  margin: 0 0 0.65rem;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2rem, 6vw, 2.75rem);
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: var(--ink);
+}
+
+.live-demo .topic-figure--demo {
+  margin: 0 0 1.25rem;
+}
+
+.live-demo .topic-article--demo-intro {
+  margin: 0 0 1.5rem;
 }
 
 .live-demo__frame-wrap {

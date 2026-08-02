@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body class="page">
-  <header class="page-header">
+  <header class="page-header page-header--wide">
     <p class="page-nav">
       <a href="/">Home</a>
       <span aria-hidden="true">/</span>
@@ -25,23 +25,337 @@
     <p class="page-lede">Tooling &amp; Harness Engineering – Werkzeuge und Abläufe rund um Agents und LLM-Anwendungen.</p>
   </header>
 
-  <main class="page-main">
+  <main class="page-main page-main--wide">
+    <figure class="topic-figure topic-figure--lead">
+      <img
+        src="/assets/singleagent/tooling-flow.png"
+        width="1536"
+        height="1024"
+        alt="Ablaufschema Tooling: Initialisierung, Planen, Ausführen, Formatieren und Nutzerfeedback"
+        decoding="async"
+        fetchpriority="high"
+      >
+    </figure>
+
     <article class="topic-article">
       <h2>Was ist Tooling &amp; Harness Engineering?</h2>
-      <p>Inhalt folgt.</p>
+      <p>Inhalt folgt – wie Agents Werkzeuge bekommen, Aufrufe strukturiert werden und ein Harness den Ablauf steuert.</p>
+
+      <h2>Demo-Anwendungsfall</h2>
+      <p>Die folgende Demo zeigt <a href="/glossar#langchain">Tool Binding</a> in der Praxis: Ein Agent erhält fünf zufällige Werkzeuge und darf beliebig viele davon in einem sequentiellen Fluchtplan kombinieren. Du entscheidest anschließend, ob die Flucht gelingt.</p>
 
       <h2>Wann es sinnvoll ist</h2>
       <p>Inhalt folgt.</p>
 
       <h2>Kernkonzepte</h2>
       <p>Inhalt folgt.</p>
-
-      <p class="topic-back">
-        <a href="/singleagent">Zurück zu Single AI Agent Design</a>
-        <span class="page-nav__dot" aria-hidden="true">·</span>
-        <a href="/">Zurück zur Home</a>
-      </p>
     </article>
+
+    <section class="live-demo live-demo--tooling" aria-label="Tooling Demo">
+      <h1 class="live-demo__title">Agent Tooling: Escape</h1>
+      <figure class="topic-figure topic-figure--demo">
+        <img
+          src="/assets/singleagent/tooling.png"
+          width="1254"
+          height="1254"
+          alt="Schema: Tooling und Harness für LLM-Agents"
+          decoding="async"
+        >
+      </figure>
+
+      <article class="topic-article topic-article--demo-intro">
+        <h2>KI-Agent mit Tool Calling</h2>
+
+        <h3>Ausgangslage</h3>
+        <p>Ein KI-Agent ist in einem verschlossenen Raum gefangen. Um zu entkommen, muss er die Situation analysieren, geeignete Werkzeuge auswählen und daraus einen sinnvollen Lösungsplan entwickeln.</p>
+        <p>Zu Beginn jedes Durchlaufs erhält der Agent <strong>fünf zufällig ausgewählte Werkzeuge</strong>. Nur diese stehen ihm für seine Planung zur Verfügung. Der Agent kann ein oder mehrere dieser Werkzeuge kombinieren und entscheidet selbst, in welcher Reihenfolge er sie einsetzen möchte.</p>
+
+        <h3>Deine Rolle</h3>
+        <p>Du bist <strong>nicht</strong> der Spieler, sondern der <strong>Game Master</strong>.</p>
+        <p>Deine Aufgabe besteht darin, den Lösungsvorschlag des Agenten zu beurteilen. Nach jedem Plan entscheidest du lediglich, ob dieser erfolgreich gewesen wäre.</p>
+        <ul>
+          <li>✅ <strong>Ja</strong> → Der Agent erreicht sein Ziel.</li>
+          <li>❌ <strong>Nein</strong> → Der Agent muss seine Strategie überdenken.</li>
+        </ul>
+        <p>Anschließend hast du zwei Möglichkeiten:</p>
+        <ul>
+          <li><strong>Continue</strong> – Der Agent erstellt mit <strong>denselben Werkzeugen</strong> einen neuen Plan.</li>
+          <li><strong>Resume</strong> – Es werden <strong>fünf neue Werkzeuge</strong> ausgewählt und der Durchlauf beginnt von vorne.</li>
+        </ul>
+
+        <h3>Ziel der Demo</h3>
+        <p>Diese Demo zeigt das Grundprinzip moderner <strong>Tool-Calling-Agenten</strong>.</p>
+        <p>Beobachte insbesondere,</p>
+        <ul>
+          <li>wie das LLM die verfügbaren Werkzeuge analysiert,</li>
+          <li>welche Werkzeuge es auswählt,</li>
+          <li>wie daraus eine mehrstufige Werkzeugsequenz entsteht und</li>
+          <li>wie sich die Strategie nach deinem Feedback verändert.</li>
+        </ul>
+      </article>
+
+      <div class="live-demo__frame-wrap">
+        <iframe
+          id="tooling-demo-frame"
+          class="live-demo__frame"
+          title="Agent Tooling: Escape"
+          loading="lazy"
+          allow="clipboard-write"
+        ></iframe>
+      </div>
+      <script>
+        (function () {
+          var local = location.hostname === "127.0.0.1" || location.hostname === "localhost";
+          var base = local ? "http://127.0.0.1:8504" : "/apps/tooling";
+          var frame = document.getElementById("tooling-demo-frame");
+          if (frame) frame.src = base + "/?embed=true&v=20260802b";
+        })();
+      </script>
+
+      <h3 class="live-demo__code-title">Quellcode (vereinfachte Demo-Logik)</h3>
+      <pre class="code-block" tabindex="0"><code>
+# =========================================================
+# 1. Aufgabenstellung
+# =========================================================
+TASK = """
+Erstelle mit den verfügbaren Werkzeugen einen geordneten Lösungsplan.
+Nutze mindestens ein Werkzeug und antworte ausschließlich mit Tool-Calls.
+"""
+# =========================================================
+# 2. Tool-Definitionen
+# Die Docstrings helfen dem LLM bei der Tool-Auswahl.
+# =========================================================
+@tool
+def hammer(ziel: str) -&gt; str:
+    """Wendet starke Schlagkraft an."""
+    return ziel.strip()
+
+@tool
+def schraubendreher(ziel: str) -&gt; str:
+    """Löst Schrauben und Abdeckungen."""
+    return ziel.strip()
+
+@tool
+def maulschluessel(ziel: str) -&gt; str:
+    """Löst Muttern und Bolzen."""
+    return ziel.strip()
+
+@tool
+def dietrich(ziel: str) -&gt; str:
+    """Öffnet mechanische Schlösser."""
+    return ziel.strip()
+
+@tool
+def saeureflasche(ziel: str) -&gt; str:
+    """Greift geeignetes Material chemisch an."""
+    return ziel.strip()
+
+@tool
+def lupe(ziel: str) -&gt; str:
+    """Macht kleine Details sichtbar."""
+    return ziel.strip()
+
+@tool
+def bolzenschneider(ziel: str) -&gt; str:
+    """Durchtrennt Ketten und dünne Metallteile."""
+    return ziel.strip()
+
+@tool
+def greifzange(ziel: str) -&gt; str:
+    """Greift schwer erreichbare Gegenstände."""
+    return ziel.strip()
+
+@tool
+def seil_mit_haken(ziel: str) -&gt; str:
+    """Erreicht, zieht oder sichert entfernte Punkte."""
+    return ziel.strip()
+
+@tool
+def saugnapf(ziel: str) -&gt; str:
+    """Haftet an glatten Oberflächen."""
+    return ziel.strip()
+
+@tool
+def schweissbrenner(ziel: str) -&gt; str:
+    """Erhitzt oder durchtrennt Metall."""
+    return ziel.strip()
+
+@tool
+def klappleiter(ziel: str) -&gt; str:
+    """Ermöglicht das Erreichen großer Höhen."""
+    return ziel.strip()
+
+# =========================================================
+# 3. Tool-Register
+# =========================================================
+
+ALL_TOOLS = [
+    hammer,
+    schraubendreher,
+    maulschluessel,
+    dietrich,
+    saeureflasche,
+    lupe,
+    bolzenschneider,
+    greifzange,
+    seil_mit_haken,
+    saugnapf,
+    schweissbrenner,
+    klappleiter,
+]
+
+# =========================================================
+# 4. Tooling-Initialisierung
+# Fünf Tools werden zufällig verfügbar gemacht.
+# =========================================================
+def select_tools():
+    return random.sample(ALL_TOOLS, 5)
+
+# =========================================================
+# 5. Agent-Initialisierung
+# ChatOpenAI wird erzeugt und mit den Tools verbunden.
+# =========================================================
+def create_plan(selected_tools):
+    llm = ChatOpenAI(
+        model="gpt-4o-mini",
+        temperature=0,
+    )
+
+    llm_with_tools = llm.bind_tools(
+        selected_tools,
+        tool_choice="required",
+        parallel_tool_calls=True,
+    )
+
+    # =====================================================
+    # 6. LLM Tool Planning (Reason)
+    # invoke() erzeugt einen oder mehrere Tool-Calls.
+    # =====================================================
+    response = llm_with_tools.invoke([
+        SystemMessage(content=TASK),
+        HumanMessage(content="Erstelle jetzt den Plan."),
+    ])
+
+    tools_by_name = {
+        current_tool.name: current_tool
+        for current_tool in selected_tools
+    }
+
+    plan = []
+    used_tools = set()
+
+    # =====================================================
+    # 7. Agent Tool Execution (Act)
+    # Python führt die Tool-Calls lokal aus.
+    # =====================================================
+    for call in response.tool_calls:
+        tool_name = call["name"]
+
+        if tool_name in used_tools:
+            continue
+
+        used_tools.add(tool_name)
+
+        tool_instance = tools_by_name[tool_name]
+        result = tool_instance.invoke(call["args"])
+
+        plan.append({
+            "tool": tool_name,
+            "result": result,
+        })
+    return plan
+
+# =========================================================
+# 8. Result Formatting
+# Der Tool-Plan wird für den Benutzer formatiert.
+# =========================================================
+
+def format_plan(plan):
+    return "\n".join(
+        f"{number}. **{step['tool']}**: {step['result']}"
+        for number, step in enumerate(plan, start=1)
+    )
+
+# =========================================================
+# 9. Session-Initialisierung
+# =========================================================
+def reset(new_tools=True):
+    if new_tools:
+        st.session_state.tools = select_tools()
+
+    st.session_state.plan = None
+    st.session_state.phase = "ready"
+
+st.session_state.setdefault("tools", select_tools())
+st.session_state.setdefault("plan", None)
+st.session_state.setdefault("phase", "ready")
+
+# =========================================================
+# 10. Benutzerinteraktion
+# =========================================================
+st.write(
+    "Verfügbare Tools:",
+    [current_tool.name for current_tool in st.session_state.tools],
+)
+
+# Agent starten oder neue Tools auswählen
+
+if st.session_state.phase == "ready":
+    if st.button("Neue Tool-Auswahl"):
+        reset(new_tools=True)
+        st.rerun()
+
+    if st.button("Agent starten"):
+        st.session_state.plan = create_plan(
+            st.session_state.tools
+        )
+        st.session_state.phase = "feedback"
+        st.rerun()
+
+# Benutzerfeedback
+
+elif st.session_state.phase == "feedback":
+    st.write(format_plan(st.session_state.plan))
+    st.write("Ist das Ergebnis erfolgreich?")
+
+    if st.button("Ja"):
+        st.session_state.phase = "success"
+        st.rerun()
+
+    if st.button("Nein"):
+        st.session_state.phase = "continue_or_resume"
+        st.rerun()
+
+# Continue oder Resume
+
+elif st.session_state.phase == "continue_or_resume":
+    if st.button("Continue – neuer Plan mit gleichen Tools"):
+        st.session_state.plan = create_plan(
+            st.session_state.tools
+        )
+        st.session_state.phase = "feedback"
+        st.rerun()
+
+    if st.button("Resume – neue Tools und Neustart"):
+        reset(new_tools=True)
+        st.rerun()
+
+# Erfolg
+
+elif st.session_state.phase == "success":
+    st.success("Ergebnis bestätigt.")
+
+    if st.button("Neu starten"):
+        reset(new_tools=True)
+        st.rerun()
+</code></pre>
+    </section>
+
+    <p class="topic-back">
+      <a href="/singleagent">Zurück zu Single AI Agent Design</a>
+      <span class="page-nav__dot" aria-hidden="true">·</span>
+      <a href="/">Zurück zur Home</a>
+    </p>
   </main>
 </body>
 </html>
