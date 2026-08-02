@@ -39,15 +39,15 @@
 
     <article class="topic-article">
       <h2>Warum RAG?</h2>
-      <p>KI-Chatbots entscheiden ohne Anleitung quasi selbst, welche Quellen sie heranziehen – Trainingsdaten und gegebenenfalls Websearch. Oft reicht dieses Wissen nicht aus oder die herangezogenen Quellen sind nicht 100 % stimmig. RAG (Retrieval-Augmented Generation) löst genau dieses Problem, indem die Antwort auf Basis eigener Wissensquellen generiert wird.</p>
+      <p>KI-Chatbots entscheiden ohne Anleitung quasi selbst, welche Quellen sie heranziehen – Trainingsdaten und gegebenenfalls Websearch. Oft reicht dieses Wissen nicht aus oder die herangezogenen Quellen sind nicht 100 % stimmig. <a href="/glossar#rag">RAG</a> (Retrieval-Augmented Generation) löst genau dieses Problem, indem die Antwort auf Basis eigener Wissensquellen generiert wird.</p>
 
       <h2>Demo-Anwendungsfall</h2>
       <p>Die folgende Demo zeigt auf extreme Weise, wie sich Antworten verändern, wenn eine spezielle <em>Source of Truth</em> bereitgestellt wird – in diesem Fall die Weisheit der Upanischaden. Ich finde solche Anwendungsfälle sehr interessant: Man kann auf diese Weise quasi in einen Dialog mit seinen Lieblingsbüchern treten. Natürlich gibt es darüber hinaus viele geschäftliche Use Cases, beispielsweise die Verknüpfung eines Gen-AI-Chatbots mit internen Wissensdatenbanken.</p>
 
       <h2>Grundlogik von RAG</h2>
-      <p>RAG ist umso interessanter, je umfangreicher die Quellen sind, die man einem Sprachmodell zur Verfügung stellen möchte. Würde das LLM ohne RAG versuchen, User-Fragen auf Basis sämtlicher Quellen zu beantworten, wäre das eine sehr rechenintensive und damit teure Angelegenheit – bis hin zur Überforderung des Modells (Stichwort <em>Context Window</em>).</p>
+      <p>RAG ist umso interessanter, je umfangreicher die Quellen sind, die man einem Sprachmodell zur Verfügung stellen möchte. Würde das <a href="/glossar#llm">LLM</a> ohne RAG versuchen, User-Fragen auf Basis sämtlicher Quellen zu beantworten, wäre das eine sehr rechenintensive und damit teure Angelegenheit – bis hin zur Überforderung des Modells (Stichwort <a href="/glossar#context-window"><em>Context Window</em></a>).</p>
 
-      <p>Retrieval-Augmented Generation siebt die verfügbaren Quellen deshalb zunächst nach <strong>Relevanz</strong>. Dazu wird die vektorisierte User-Frage auf Ähnlichkeit mit den bereits vektorisierten Quelltexten untersucht. Nur diese relevanten Textabschnitte werden anschließend zusammen mit der ursprünglichen User-Frage als Prompt an das LLM übergeben. Das Sprachmodell muss dadurch nicht mehr alle Dokumente verarbeiten, sondern erhält bereits den passenden Kontext und kann daraus die Antwort generieren.</p>
+      <p>Retrieval-Augmented Generation siebt die verfügbaren Quellen deshalb zunächst nach <strong>Relevanz</strong> – typischerweise über einen <a href="/glossar#retriever">Retriever</a>. Dazu wird die per <a href="/glossar#embedding">Embedding</a> vektorisierte User-Frage auf Ähnlichkeit mit den bereits vektorisierten Quelltexten untersucht. Nur diese relevanten Textabschnitte werden anschließend zusammen mit der ursprünglichen User-Frage als <a href="/glossar#prompt">Prompt</a> an das LLM übergeben. Das Sprachmodell muss dadurch nicht mehr alle Dokumente verarbeiten, sondern erhält bereits den passenden Kontext und kann daraus die Antwort generieren.</p>
 
       <h2>Zukünftige Rolle von RAG und Ausblick</h2>
       <p>Daher wird RAG und die beschriebene Grundlogik auch in den kommenden Jahren ein wichtiges Instrument bleiben, um das endliche Context Window effizient zu managen. Gleichzeitig entwickelt sich das Thema rasant weiter und geht inzwischen weit über die reine Vektorsuche hinaus.</p>

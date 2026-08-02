@@ -61,6 +61,41 @@ def context_and_memory_rag():
     return page_response("contextandmemory", "rag.html")
 
 
+@app.get("/singleagent")
+def single_agent():
+    return page_response("singleagent", "index.html")
+
+
+@app.get("/singleagent/tooling")
+def single_agent_tooling():
+    return page_response("singleagent", "tooling.html")
+
+
+@app.get("/singleagent/langgraph")
+def single_agent_langgraph():
+    return page_response("singleagent", "langgraph.html")
+
+
+@app.get("/datafactory")
+def data_factory():
+    return page_response("datafactory", "index.html")
+
+
+@app.get("/datafactory/vectorembedding")
+def data_factory_vector_embedding():
+    return page_response("datafactory", "vectorembedding.html")
+
+
+@app.get("/impressum")
+def impressum():
+    return page_response("impressum.html")
+
+
+@app.get("/datenschutz")
+def datenschutz():
+    return page_response("datenschutz.html")
+
+
 @app.get("/health")
 def health():
     return {"ok": True, "site": SITE_NAME}

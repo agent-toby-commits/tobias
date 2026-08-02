@@ -19,6 +19,8 @@
       <span>Glossar</span>
       <span class="page-nav__dot" aria-hidden="true">·</span>
       <a href="/ueber-mich">Über mich</a>
+      <span class="page-nav__dot" aria-hidden="true">·</span>
+      <a href="/impressum">Impressum</a>
     </p>
     <p class="page-eyebrow">Referenz</p>
     <h1 class="page-title">Glossar</h1>
@@ -26,7 +28,15 @@
 
     <nav class="glossary-index" aria-label="Alphabetische Sprungmarken">
       <a href="#caddy">C</a>
+      <a href="#docker">D</a>
+      <a href="#embedding">E</a>
       <a href="#fastapi">F</a>
+      <a href="#git">G</a>
+      <a href="#kubernetes">K</a>
+      <a href="#langchain">L</a>
+      <a href="#prompt">P</a>
+      <a href="#rag">R</a>
+      <a href="#terraform">T</a>
     </nav>
   </header>
 
@@ -48,6 +58,30 @@
       </div>
     </article>
 
+    <article class="glossary-entry glossary-entry--text" id="context-window">
+      <div class="glossary-entry__copy">
+        <h2 class="glossary-entry__term">Context Window</h2>
+        <p>Das Context Window ist die begrenzte Menge an Text (Tokens), die ein Sprachmodell in einem Durchlauf gleichzeitig verarbeiten kann – Input und Output zusammen. Wird dieser Rahmen überschritten, muss Kontext gekürzt, zusammengefasst oder über Retrieval nachgeladen werden. Genau deshalb ist RAG so relevant: Statt alle Quellen auf einmal in das Fenster zu pressen, gelangen nur die relevanten Passagen zum Modell.</p>
+        <p class="glossary-entry__back"><a href="/">Zurück zur Home</a></p>
+      </div>
+    </article>
+
+    <article class="glossary-entry glossary-entry--text" id="docker">
+      <div class="glossary-entry__copy">
+        <h2 class="glossary-entry__term">Docker</h2>
+        <p>Docker packt Anwendungen mit ihren Abhängigkeiten in Container – isoliert, portabel und reproduzierbar. Lokal und auf dem Server läuft dieselbe Umgebung; das reduziert „bei mir geht’s“-Probleme und macht Deployments für Webdienste, APIs und KI-Demos vorhersehbar. In schlanken Full-Stack-Setups ist Docker typischerweise die Isolationsschicht unter Reverse Proxy und App-Prozessen.</p>
+        <p class="glossary-entry__back"><a href="/">Zurück zur Home</a></p>
+      </div>
+    </article>
+
+    <article class="glossary-entry glossary-entry--text" id="embedding">
+      <div class="glossary-entry__copy">
+        <h2 class="glossary-entry__term">Embedding</h2>
+        <p>Ein Embedding wandelt Text (oder andere Daten) in einen Zahlenvektor um, der semantische Bedeutung abbildet. Ähnliche Inhalte liegen im Vektorraum nah beieinander – so kann eine User-Frage mit Quelltexten verglichen werden, ohne dass exakte Wortübereinstimmung nötig ist. In RAG-Systemen werden Dokumente vorab eingebettet und in einer Vektordatenbank gespeichert; die Frage wird zur Laufzeit ebenfalls eingebettet und dient als Suchschlüssel. Mehr unter <a href="/datafactory/vectorembedding">Data Factory · Vector Embedding</a>.</p>
+        <p class="glossary-entry__back"><a href="/">Zurück zur Home</a></p>
+      </div>
+    </article>
+
     <article class="glossary-entry" id="fastapi">
       <figure class="glossary-entry__media">
         <img
@@ -61,6 +95,87 @@
       <div class="glossary-entry__copy">
         <h2 class="glossary-entry__term">FastAPI</h2>
         <p>Schlanke Schnittstelle, um KI-Modelle und Python-basierte Apps sofort in einen auswertbaren Web-Dienst zu verwandeln. Hervorragend geeignet für das Realtime-Streaming von Tokens (Wort-für-Wort-Ausgabe), automatische Datenvalidierung VOR dem Start rechenintensiven KI Codes und automatische Testumgebung (allerdings keine rein visuellen Prototypen, dafür wird dann zB Streamlit oder Gradio benötigt).</p>
+        <p class="glossary-entry__back"><a href="/">Zurück zur Home</a></p>
+      </div>
+    </article>
+
+    <article class="glossary-entry glossary-entry--text" id="git">
+      <div class="glossary-entry__copy">
+        <h2 class="glossary-entry__term">Git &amp; GitHub</h2>
+        <p>Git ist das Versionskontrollsystem für Code und Konfiguration; GitHub ist die Plattform dafür – Repositories, Reviews, Issues und Automatisierung. Zusammen ermöglichen sie nachvollziehbare Änderungen, Zusammenarbeit und reproduzierbare Deployments (z. B. über GitHub Actions). Für Prototypen und produktive Stacks ist das die Grundlage, um Infrastruktur und Anwendungscode kontrolliert weiterzuentwickeln.</p>
+        <p class="glossary-entry__back"><a href="/">Zurück zur Home</a></p>
+      </div>
+    </article>
+
+    <article class="glossary-entry glossary-entry--text" id="kubernetes">
+      <div class="glossary-entry__copy">
+        <h2 class="glossary-entry__term">Kubernetes</h2>
+        <p>Kubernetes (K8s) orchestriert Container über Cluster hinweg: Scheduling, Skalierung, Health-Checks und Netzwerk. Sobald aus wenigen Diensten eine produktive Plattform mit Hochverfügbarkeit und horizontaler Skalierung wird, ersetzt es oft das manuelle Betreiben einzelner Container. Für frühe AI-Prototypen ist es meist Overkill – relevant wird es beim Übergang vom Lab zur Enterprise-Plattform.</p>
+        <p class="glossary-entry__back"><a href="/">Zurück zur Home</a></p>
+      </div>
+    </article>
+
+    <article class="glossary-entry glossary-entry--text" id="langchain">
+      <div class="glossary-entry__copy">
+        <h2 class="glossary-entry__term">LangChain</h2>
+        <p>LangChain ist ein Framework zum Bau von LLM-Anwendungen: Chains, Tools, Retriever, Prompt-Templates und Integrationen zu Modellen und Datenspeichern. Es beschleunigt typische Muster wie RAG, Tool-Calling und Agent-Schleifen, ohne alles von Grund auf selbst verdrahten zu müssen. Mehr unter <a href="/singleagent/tooling">Single AI Agent Design · Tooling</a>.</p>
+        <p class="glossary-entry__back"><a href="/">Zurück zur Home</a></p>
+      </div>
+    </article>
+
+    <article class="glossary-entry glossary-entry--text" id="langgraph">
+      <div class="glossary-entry__copy">
+        <h2 class="glossary-entry__term">LangGraph</h2>
+        <p>LangGraph ergänzt das LangChain-Ökosystem um zustandsbehaftete Workflows als Graphen: Knoten, Kanten, Schleifen und Kontrolle über den Ablauf. Damit lassen sich Agenten mit klarer Steuerung, Persistenz und Verzweigungen bauen – über einfache lineare Chains hinaus. Mehr unter <a href="/singleagent/langgraph">Single AI Agent Design · LangGraph</a>.</p>
+        <p class="glossary-entry__back"><a href="/">Zurück zur Home</a></p>
+      </div>
+    </article>
+
+    <article class="glossary-entry glossary-entry--text" id="llm">
+      <div class="glossary-entry__copy">
+        <h2 class="glossary-entry__term">LLM</h2>
+        <p>LLM steht für Large Language Model – ein großes Sprachmodell, das auf sehr großen Textmengen trainiert wurde und daraus Texte verstehen und erzeugen kann. Es liefert die generative Fähigkeit in Chatbots und RAG-Pipelines, kennt aber ohne zusätzlichen Kontext weder interne Dokumente noch aktuelle Unternehmensdaten. Deshalb ergänzt man LLMs oft mit Retrieval, Tools oder Fine-Tuning.</p>
+        <p class="glossary-entry__back"><a href="/">Zurück zur Home</a></p>
+      </div>
+    </article>
+
+    <article class="glossary-entry glossary-entry--text" id="prompt">
+      <div class="glossary-entry__copy">
+        <h2 class="glossary-entry__term">Prompt</h2>
+        <p>Der Prompt ist die Eingabe an das Sprachmodell: Aufgabe, Regeln, optionaler Kontext und die eigentliche Nutzerfrage. In RAG-Systemen wird der Prompt typischerweise aus Systemanweisung, retrieved Textstellen und User-Frage zusammengesetzt – damit das Modell die Antwort auf die bereitgestellten Quellen stützt, statt frei zu halluzinieren.</p>
+        <p class="glossary-entry__back"><a href="/">Zurück zur Home</a></p>
+      </div>
+    </article>
+
+    <article class="glossary-entry" id="rag">
+      <figure class="glossary-entry__media">
+        <img
+          src="/assets/glossar/rag.jpeg"
+          width="1024"
+          height="1024"
+          alt="Lego-Illustration: RAG mit Query, Retrieval, Vector Database und Augmentation"
+          decoding="async"
+        >
+      </figure>
+      <div class="glossary-entry__copy">
+        <h2 class="glossary-entry__term">RAG</h2>
+        <p>RAG (Retrieval-Augmented Generation) verbessert generative KI, indem Antworten auf eigenen Wissensquellen basieren – nicht nur auf Trainingsdaten oder Websuche. Zuerst sucht das System passende Textstellen (Retrieval), dann fließen diese zusammen mit der Frage in den Prompt (Augmentation), und erst danach erzeugt das LLM die Antwort (Generation). So bleibt das begrenzte Context Window nutzbar, selbst wenn die Gesamtdatenmenge riesig ist. Mehr dazu unter <a href="/contextandmemory/rag">Context &amp; Memory · RAG</a>.</p>
+        <p class="glossary-entry__back"><a href="/">Zurück zur Home</a></p>
+      </div>
+    </article>
+
+    <article class="glossary-entry glossary-entry--text" id="retriever">
+      <div class="glossary-entry__copy">
+        <h2 class="glossary-entry__term">Retriever</h2>
+        <p>Der Retriever holt aus einer Wissensbasis – oft einer Vektordatenbank – die zum Query passendsten Dokumente oder Chunks. Typischerweise top‑k Treffer nach Ähnlichkeit der Embeddings. Er entscheidet damit, welcher Kontext überhaupt in den Prompt gelangt, und ist die Schaltstelle zwischen gespeichertem Wissen und dem LLM.</p>
+        <p class="glossary-entry__back"><a href="/">Zurück zur Home</a></p>
+      </div>
+    </article>
+
+    <article class="glossary-entry glossary-entry--text" id="terraform">
+      <div class="glossary-entry__copy">
+        <h2 class="glossary-entry__term">Terraform</h2>
+        <p>Terraform ist ein Werkzeug für Infrastructure as Code: Server, Netzwerke, Cluster und Cloud-Ressourcen werden als deklarative Konfiguration beschrieben und versioniert ausgerollt. Änderungen sind nachvollziehbar und wiederholbar – wichtig, sobald Prototypen zu produktiven Umgebungen wachsen und manuelle Klicks im Cloud-Dashboard nicht mehr ausreichen.</p>
         <p class="glossary-entry__back"><a href="/">Zurück zur Home</a></p>
       </div>
     </article>

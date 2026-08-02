@@ -181,6 +181,15 @@ body {
 
 .blocks__links {
   margin: 1rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  align-items: center;
+}
+
+.blocks__links-sep {
+  color: var(--ink-soft);
+  opacity: 0.55;
 }
 
 .blocks__links a {
@@ -537,6 +546,40 @@ a.block__part:focus-visible {
   color: var(--ink);
 }
 
+/* --- Legal pages --- */
+
+.legal h2 {
+  margin: 2rem 0 0.75rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+}
+
+.legal h2:first-child {
+  margin-top: 0;
+}
+
+.legal p {
+  margin: 0 0 1rem;
+  color: var(--ink-soft);
+  font-size: 1.02rem;
+  line-height: 1.7;
+  max-width: 42rem;
+}
+
+.legal a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+.legal a:hover,
+.legal a:focus-visible {
+  color: var(--ink);
+  border-bottom-color: currentColor;
+}
+
 /* --- Live-Demo (Streamlit iframe) --- */
 
 .live-demo {
@@ -642,6 +685,10 @@ a.block__part:focus-visible {
   scroll-margin-top: 1.5rem;
 }
 
+.glossary-entry--text {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .glossary-entry__media {
   margin: 0;
 }
@@ -669,6 +716,18 @@ a.block__part:focus-visible {
   font-size: 1.02rem;
   line-height: 1.7;
   max-width: 40rem;
+}
+
+.glossary-entry__copy a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+.glossary-entry__copy a:hover,
+.glossary-entry__copy a:focus-visible {
+  color: var(--ink);
+  border-bottom-color: currentColor;
 }
 
 .glossary-entry__back {
