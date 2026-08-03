@@ -76,9 +76,9 @@ def single_agent_tooling():
     return page_response("singleagent", "tooling.html")
 
 
-@app.get("/singleagent/langgraph")
-def single_agent_langgraph():
-    return page_response("singleagent", "langgraph.html")
+@app.get("/singleagent/api")
+def single_agent_api():
+    return page_response("singleagent", "api.html")
 
 
 @app.get("/datafactory")

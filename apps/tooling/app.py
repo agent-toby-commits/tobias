@@ -463,6 +463,7 @@ def initialize_session_state() -> None:
         "escape_failed": False,
         "agent_error": None,
         "attempt_number": 0,
+        "pending_plan": None,
     }
 
     for key, default_value in default_values.items():
@@ -488,6 +489,7 @@ def reset_game(select_new_tools: bool = True) -> None:
     st.session_state.escape_failed = False
     st.session_state.agent_error = None
     st.session_state.attempt_number = 0
+    st.session_state.pending_plan = None
 
 
 initialize_session_state()
@@ -509,11 +511,17 @@ def get_available_tools() -> list[BaseTool]:
 # 9. AGENTENPLAN MIT BIND_TOOLS (BELIEBIG VIELE TOOLS)
 # =========================================================
 
-def let_agent_plan_escape() -> None:
+def let_agent_plan_escape(status: Any | None = None) -> None:
     """
     Der Agent erhält die fünf Werkzeuge und darf beliebig viele
     davon in einem sequentiellen Fluchtplan kombinieren.
+
+    Optional: Streamlit-Status-Container für sichtbare Fortschrittsphasen.
     """
+    def note(message: str) -> None:
+        if status is not None:
+            status.write(message)
+
     st.session_state.agent_error = None
     st.session_state.current_plan = None
     st.session_state.plan_tool_names = []
@@ -535,6 +543,7 @@ def let_agent_plan_escape() -> None:
         for tool_object in available_tools
     )
 
+    note("Escape wird vorbereitet…")
     room_variant = waehle_raumvariante()
     st.session_state.current_room_variant_id = room_variant["id"]
 
@@ -582,6 +591,7 @@ VERBINDLICHE REGELN:
         parallel_tool_calls=True,
     )
 
+    note("LLM plant Tool-Aufrufe…")
     try:
         response = model_with_tools.invoke(
             [
@@ -616,6 +626,8 @@ VERBINDLICHE REGELN:
     plan_tool_names: list[str] = []
     seen_tools: set[str] = set()
 
+    note("Tool-Calls ausführen (1/2)…")
+
     for tool_call in response.tool_calls:
         selected_tool_name = tool_call.get("name")
         tool_arguments = tool_call.get("args", {})
@@ -647,6 +659,7 @@ VERBINDLICHE REGELN:
             return
 
         selected_tool = TOOLS_BY_NAME[selected_tool_name]
+        note("Tool-Calls ausführen (2/2)…")
 
         try:
             ziel_text = selected_tool.invoke({"ziel": ziel.strip()})
@@ -671,6 +684,7 @@ VERBINDLICHE REGELN:
         )
         return
 
+    note("Fluchtplan formulieren…")
     st.session_state.plan_tool_names = plan_tool_names
     st.session_state.current_plan = formuliere_fluchtplan(schritte)
     st.session_state.attempt_number += 1
@@ -680,10 +694,10 @@ VERBINDLICHE REGELN:
 # 10. CALLBACKS FÜR DIE BUTTONS
 # =========================================================
 
-def start_agent() -> None:
+def start_agent(status: Any | None = None) -> None:
     """Startet das Spiel und lässt den Agenten einen Fluchtplan erstellen."""
     st.session_state.agent_started = True
-    let_agent_plan_escape()
+    let_agent_plan_escape(status=status)
 
 
 def mark_escape_successful() -> None:
@@ -699,10 +713,10 @@ def mark_escape_failed() -> None:
     st.session_state.current_plan = None
 
 
-def replane_escape() -> None:
+def replane_escape(status: Any | None = None) -> None:
     """Neuer Plan mit denselben fünf Werkzeugen (neue Raumvariante)."""
     st.session_state.escape_failed = False
-    let_agent_plan_escape()
+    let_agent_plan_escape(status=status)
 
 
 # =========================================================
@@ -863,10 +877,14 @@ for column, tool_name in zip(
 st.write("")
 
 _busy = (
-    st.session_state.agent_started
-    and not st.session_state.game_finished
-    and not st.session_state.escape_failed
-    and not st.session_state.agent_error
+    st.session_state.pending_plan is not None
+    or (
+        st.session_state.agent_started
+        and not st.session_state.game_finished
+        and not st.session_state.escape_failed
+        and not st.session_state.agent_error
+        and st.session_state.current_plan is not None
+    )
 )
 
 left_button_column, right_button_column = st.columns(2)
@@ -893,9 +911,12 @@ with right_button_column:
     )
 
     if agent_start_clicked:
-        with st.spinner("Der Agent analysiert den Raum und plant ..."):
-            start_agent()
-
+        st.session_state.agent_started = True
+        st.session_state.pending_plan = "start"
+        st.session_state.current_plan = None
+        st.session_state.agent_error = None
+        st.session_state.escape_failed = False
+        st.session_state.game_finished = False
         st.rerun()
 
 
@@ -906,6 +927,23 @@ with right_button_column:
 if st.session_state.agent_started:
     st.divider()
     st.subheader("Fluchtplan des Agenten")
+
+    pending_plan = st.session_state.pending_plan
+    if pending_plan is not None:
+        st.session_state.pending_plan = None
+        with st.status(
+            "Der Agent analysiert den Raum und plant …",
+            expanded=True,
+        ) as status:
+            if pending_plan == "start":
+                start_agent(status=status)
+            else:
+                replane_escape(status=status)
+
+            if st.session_state.agent_error:
+                status.update(label="Planung fehlgeschlagen", state="error")
+            else:
+                status.update(label="Fluchtplan erstellt", state="complete")
 
     if st.session_state.agent_error:
         st.error(st.session_state.agent_error)
@@ -947,8 +985,8 @@ if st.session_state.agent_started:
             )
 
             if replane_clicked:
-                with st.spinner("Der Agent plant neu ..."):
-                    replane_escape()
+                st.session_state.pending_plan = "replane"
+                st.session_state.current_plan = None
                 st.rerun()
 
         with new_tools_column:
