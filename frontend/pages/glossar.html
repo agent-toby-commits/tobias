@@ -38,6 +38,7 @@
       <a href="#langchain">L</a>
       <a href="#prompt">P</a>
       <a href="#rag">R</a>
+      <a href="#sdk">S</a>
       <a href="#terraform">T</a>
     </nav>
   </header>
@@ -157,6 +158,14 @@
       </div>
     </article>
 
+    <article class="glossary-entry glossary-entry--text" id="least-privilege">
+      <div class="glossary-entry__copy">
+        <h2 class="glossary-entry__term">Least Privilege</h2>
+        <p>Least Privilege bedeutet: nur so viele Rechte wie nötig – und keine darüber hinaus. Bei Agenten heißt das konkret, API-Keys, Tools und Datenzugriffe bewusst zu begrenzen, damit ein Agent nur das tun kann, was seine Aufgabe erfordert. Mit wachsenden „Agenten-Armeen“ wird diese Schlüssel- und Rechtevergabe zur zentralen Sicherheitsaufgabe; der Mensch bleibt Hüter und Entscheider. Mehr unter <a href="/singleagent/api">REST &amp; External API Integration</a>.</p>
+        <p class="glossary-entry__back"><a href="/">Zurück zur Home</a></p>
+      </div>
+    </article>
+
     <article class="glossary-entry glossary-entry--text" id="llm">
       <div class="glossary-entry__copy">
         <h2 class="glossary-entry__term">LLM</h2>
@@ -198,10 +207,34 @@
       </div>
     </article>
 
+    <article class="glossary-entry glossary-entry--text" id="rest">
+      <div class="glossary-entry__copy">
+        <h2 class="glossary-entry__term">REST</h2>
+        <p>REST (Representational State Transfer) ist ein Architekturstil für Web-<a href="/glossar#api">APIs</a>: Ressourcen werden über URLs angesprochen, typischerweise mit HTTP-Methoden wie GET, POST, PUT oder DELETE und oft JSON als Datenformat. Viele öffentliche und kommerzielle Dienste folgen diesem Muster – von Live-Daten (z. B. Open Notify) bis zu großen Plattform-APIs. Mehr unter <a href="/singleagent/api">REST &amp; External API Integration</a>.</p>
+        <p class="glossary-entry__back"><a href="/">Zurück zur Home</a></p>
+      </div>
+    </article>
+
     <article class="glossary-entry glossary-entry--text" id="retriever">
       <div class="glossary-entry__copy">
         <h2 class="glossary-entry__term">Retriever</h2>
         <p>Der Retriever holt aus einer Wissensbasis – oft einer Vektordatenbank – die zum Query passendsten Dokumente oder Chunks. Typischerweise top‑k Treffer nach Ähnlichkeit der Embeddings. Er entscheidet damit, welcher Kontext überhaupt in den Prompt gelangt, und ist die Schaltstelle zwischen gespeichertem Wissen und dem LLM.</p>
+        <p class="glossary-entry__back"><a href="/">Zurück zur Home</a></p>
+      </div>
+    </article>
+
+    <article class="glossary-entry glossary-entry--text" id="sdk">
+      <div class="glossary-entry__copy">
+        <h2 class="glossary-entry__term">SDK</h2>
+        <p>Ein SDK (Software Development Kit) ist eine vorgefertigte Programmbibliothek um eine <a href="/glossar#api">API</a> herum. Statt rohe HTTP-Aufrufe zu bauen, nutzen Entwickler und Agenten-Tools fertige Funktionen für Authentifizierung, Fehlerbehandlung und Datenstrukturen. Besonders bei umfangreichen APIs – etwa der YouTube Data API von Google – macht das den Zugriff deutlich eleganter. Mehr unter <a href="/singleagent/api">REST &amp; External API Integration</a>.</p>
+        <p class="glossary-entry__back"><a href="/">Zurück zur Home</a></p>
+      </div>
+    </article>
+
+    <article class="glossary-entry glossary-entry--text" id="streaming">
+      <div class="glossary-entry__copy">
+        <h2 class="glossary-entry__term">Streaming</h2>
+        <p>Streaming bedeutet, dass die Ausgabe eines LLM oder Agenten nicht erst am Ende, sondern Stück für Stück live angezeigt wird – Token für Token oder Ereignis für Ereignis (z. B. Tool-Aufrufe). Nutzer sehen so den Fortschritt sofort; Wartezeiten wirken kürzer, und Zwischenschritte wie Tool-Calls bleiben nachvollziehbar. In der YouTube-Demo wird der ReAct-Ablauf genau so sichtbar gemacht. Mehr unter <a href="/singleagent/api">REST &amp; External API Integration</a>.</p>
         <p class="glossary-entry__back"><a href="/">Zurück zur Home</a></p>
       </div>
     </article>

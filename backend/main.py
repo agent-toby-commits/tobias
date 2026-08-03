@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import httpx
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -13,6 +14,8 @@ FRONTEND_DIR = ROOT / "frontend"
 PAGES_DIR = FRONTEND_DIR / "pages"
 
 SITE_NAME = "Tobias Lampe"
+OPEN_NOTIFY_BASE = "http://api.open-notify.org"
+WHERE_THE_ISS_URL = "https://api.wheretheiss.at/v1/satellites/25544"
 
 app = FastAPI(title="tobiaslampe.de")
 app.mount("/css", StaticFiles(directory=FRONTEND_DIR / "css"), name="css")
@@ -25,6 +28,84 @@ def page_response(*parts: str) -> FileResponse:
         raise HTTPException(status_code=404, detail="Seite nicht gefunden")
     return FileResponse(path)
 
+
+async def _fetch_json(url: str, *, timeout: float = 5.0) -> dict:
+    async with httpx.AsyncClient(timeout=timeout, follow_redirects=True) as client:
+        response = await client.get(url)
+        response.raise_for_status()
+        data = response.json()
+        if not isinstance(data, dict):
+            raise ValueError(f"Unerwartete Antwort von {url}")
+        return data
+
+
+async def _proxy_open_notify(path: str) -> dict:
+    url = f"{OPEN_NOTIFY_BASE}/{path.lstrip('/')}"
+    try:
+        return await _fetch_json(url)
+    except (httpx.HTTPError, ValueError) as exc:
+        raise HTTPException(
+            status_code=502,
+            detail=f"Open-Notify nicht erreichbar: {exc}",
+        ) from exc
+
+
+async def _iss_position() -> tuple[float, float, int | None]:
+    """ISS-Koordinaten: Open Notify zuerst, sonst Where The ISS At."""
+    errors: list[str] = []
+    try:
+        iss = await _fetch_json(f"{OPEN_NOTIFY_BASE}/iss-now.json")
+        position = iss.get("iss_position") or {}
+        return (
+            float(position["latitude"]),
+            float(position["longitude"]),
+            iss.get("timestamp"),
+        )
+    except (httpx.HTTPError, KeyError, TypeError, ValueError) as exc:
+        errors.append(f"open-notify: {exc}")
+
+    try:
+        iss = await _fetch_json(WHERE_THE_ISS_URL)
+        return float(iss["latitude"]), float(iss["longitude"]), iss.get("timestamp")
+    except (httpx.HTTPError, KeyError, TypeError, ValueError) as exc:
+        errors.append(f"wheretheiss: {exc}")
+
+    raise HTTPException(
+        status_code=502,
+        detail="ISS-Position nicht erreichbar (" + "; ".join(errors) + ")",
+    )
+
+
+@app.get("/proxy/open-notify/astros")
+async def proxy_astros():
+    return await _proxy_open_notify("astros.json")
+
+
+@app.get("/proxy/open-notify/iss-now")
+async def proxy_iss_now():
+    return await _proxy_open_notify("iss-now.json")
+
+
+@app.get("/proxy/iss-live")
+async def proxy_iss_live():
+    """Besatzung + ISS-Position in einer Antwort – für die ISS-Demo."""
+    try:
+        astros = await _fetch_json(f"{OPEN_NOTIFY_BASE}/astros.json")
+    except (httpx.HTTPError, ValueError) as exc:
+        raise HTTPException(
+            status_code=502,
+            detail=f"Besatzungsdaten nicht erreichbar: {exc}",
+        ) from exc
+
+    latitude, longitude, timestamp = await _iss_position()
+    people = astros.get("people") or []
+    return {
+        "number": int(astros.get("number") or len(people)),
+        "people": people,
+        "latitude": latitude,
+        "longitude": longitude,
+        "timestamp": timestamp,
+    }
 
 @app.get("/")
 def index():
