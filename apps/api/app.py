@@ -32,7 +32,7 @@ OPENAI_API_KEY = (os.getenv("OPENAI_API_KEY") or "").strip()
 
 
 @tool
-def search_youtube(query: str, max_results: int = 10) -> list[dict]:
+def search_youtube(query: str, max_results: int = 20) -> list[dict]:
     """Sucht YouTube-Videos zu einem Thema. Gibt eine einfache Liste mit IDs, Titeln & URLs zurück."""
     yt = build("youtube", "v3", developerKey=YOUTUBE_API_KEY)
     res = (
@@ -262,7 +262,7 @@ def main() -> None:
 
     with st.form("youtube_search_form", clear_on_submit=False):
         query_input = st.text_input(
-            "Suchanfrage:", placeholder="Was ist AP?"
+            "Suchen:", placeholder="Was ist API?"
         )
         submitted = st.form_submit_button("Video suchen", type="primary")
 

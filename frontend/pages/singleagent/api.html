@@ -22,8 +22,8 @@
       <span>REST &amp; External API Integration</span>
     </p>
     <p class="page-eyebrow">Teilbereich</p>
-    <h1 class="page-title">REST &amp; External API Integration</h1>
-    <p class="page-lede">Schnittstellen, Schlüssel und Tools – damit Agents auf externe Dienste zugreifen können.</p>
+    <h1 class="page-title">REST &amp; External API</h1>
+    <p class="page-lede">Schnittstellen und Schlüssel – damit Agenten auf externe Dienste zugreifen können.</p>
   </header>
 
   <main class="page-main page-main--wide">
@@ -43,10 +43,11 @@
       </ul>
       <p>Hier führt die einfache Kombination aus semantischem Verständnis der Suchanfrage, Zugriff auf die YouTube-Daten und ungewöhnlicher User-Eingabe (Gewichtung von zwei Kriterien) zu – wie ich finde – erhellenden Ergebnissen. Die Ausführung der Aufgabe durch den Agenten wird außerdem im <a href="/glossar#streaming"><strong>Streaming-Modus</strong></a> sichtbar gemacht.</p>
       <p><strong>Viel Spaß beim Ausprobieren der Demos!</strong></p>
+      <br><br>
     </article>
 
     <section class="live-demo iss-demo" aria-label="Weltall Live-Tracker">
-      <h1 class="live-demo__title" id="demo-iss">Weltall Live-Tracker</h1>
+      <h1 class="live-demo__title" id="demo-iss">Astronauten Live-Tracker</h1>
 
       <div class="iss-demo__panel" id="iss-demo-root" data-status="loading">
         <p class="iss-demo__status" id="iss-status">Lade Live-Daten…</p>
@@ -57,7 +58,7 @@
           <div class="iss-demo__map" id="iss-map" role="img" aria-label="Weltkarte mit ISS-Position"></div>
         </div>
         <div class="iss-demo__crew" hidden id="iss-crew-block">
-          <h2 class="iss-demo__crew-title">aktuelle Besatzungsmitglieder im Weltall</h2>
+          <h2 class="iss-demo__crew-title">Aktuelle Besatzungsmitglieder im Weltall</h2>
           <p class="iss-demo__crew-list" id="iss-crew"></p>
         </div>
       </div>
@@ -88,96 +89,197 @@
         })();
       </script>
 
-      <h3 class="live-demo__code-title">Quellcode (vereinfachte Demo-Logik)</h3>
+      <h3 class="live-demo__code-title">Quellcode Youtube-Beispiel (vereinfachte Demo-Logik)</h3>
       <pre class="code-block" tabindex="0"><code>
-# =========================================================
-# 1. Tools = API-Aufrufe
-# =========================================================
-@tool
-def search_youtube(query: str, max_results: int = 10) -&gt; list[dict]:
-    """Sucht YouTube-Videos über die YouTube Data API."""
-    yt = build("youtube", "v3", developerKey=YOUTUBE_API_KEY)
-    res = yt.search().list(
-        q=query, part="id,snippet", type="video", maxResults=max_results
-    ).execute()
-    return [
-        {
-            "video_id": item["id"]["videoId"],
-            "title": item["snippet"]["title"],
-            "url": f"https://youtu.be/{item['id']['videoId']}",
-        }
-        for item in res.get("items", [])
-        if "videoId" in item.get("id", {})
-    ]
-
+        def main() -> None:
+        # Streamlit UI Initialisierung entfernt
+        # Hier gehts los: über Usereingabe werden %slider_value% und %query% bestimmt
+        # Mit dem Argument %slider_value% wird die Funktion !calculate_weights! aufgerufen
+        # DEFcalculate_weights liefert die Gewichte %w_recency% und %w_popularity%
+        # Mit diesen Gewichten und dem Argument %query% wird die Funktion !run_search! aufgerufen
+            slider_value = st.slider(
+                "Fokus: Aktualität ← → Popularität",
+                min_value=-100,
+                max_value=100,
+                value=0,
+            )
+            w_recency, w_popularity = calculate_weights(slider_value)
+            with st.form("youtube_search_form"):
+                query = st.text_input(
+                    "Suchanfrage",
+                    placeholder="Was ist eine API?",
+                )
+                submitted = st.form_submit_button(
+                    "Video suchen",
+                    type="primary",
+                )
+        # Validierungsschritte entfernt
+            run_search(query, w_recency, w_popularity)
+        def calculate_weights(slider_value: int) -> tuple[float, float]:
+        # Übersetzt die Sliderposition in die beiden Gewichte (als Toople)
+        # diese werden in !main! als w_recency und w_popularity empfangen
+            return (
+                ((-slider_value + 100)/2),
+                ((slider_value +100)/2),
+            )
+        # !parse_tool_output! zur besseren Lesbarkeit entfernt
+        # !content_to_text! zur besseren Lesbarkeit entfernt
+        # !show_default_video! zur besseren Lesbarkeit entfernt
+        def run_search(
+        # wird unmittelbar aufgerufen von der User Suchanfrage
+        # mit den Argumenten %query%, %w_recency% und %w_popularity%
+            query: str,
+            w_recency: float,
+            w_popularity: float,
+        ) -> tuple[str, str | None]:
+        # Hier wird über !create_youtube_agent! ein Agent initialisiert
+        # und direkt über Streamlit sein Status gestreamt
+            agent = create_youtube_agent()
+            status = st.status("Agent arbeitet …", expanded=True)
+            answer_placeholder = st.empty()
+            answer = ""
+            top_video_id = None
+        # der User_Prompt wird für das LLM vorbereitet
+            user_prompt = (
+                f"Suche nach: {query!r}. "
+                f"Gewichte: w_recency={w_recency}, "
+                f"w_popularity={w_popularity}."
+            )
+        # Code für die Anzeige des Agent Streamen zwecks Lesbarkeit entfernt
+        # Die Tools werden in LangChain nicht direkt aufgerufen,sondern vom KI-Agenten selbst.
+        # Die Tool Calls werden vom LLM erzeugt, das LLM entscheidet über den Aufruf
+        # Im Hintergrund führt er die Tools !search_youtube! und !score_and_rank_videos! aus
+            for chunk, _ in agent.stream(
+                {"messages": [("user", user_prompt)]},
+                stream_mode="messages",
+            ):
+        # Tool-Ausgaben werden im Hintergrund abfangen, um %top_video_id% zu ermitteln
+        # %top_video_id% wird am Ende der Funktion an !main! übergeben
+                if getattr(chunk, "type", None) == "tool":
+                    output = parse_tool_output(chunk.content)
+                    tool_name = getattr(chunk, "name", "Tool")
+                    if (
+                        tool_name == "score_and_rank_videos"
+                        and isinstance(output, list)
+                        and output
+                    ):
+                        top_video_id = output[0].get("video_id")
+                    continue
+        # Textfragmente des Agenten einsammeln und zu %answer% verdichten
+        # %answer% ist wird neben dem Top Video als Antwort zurückgegeben an !main!
+                text = content_to_text(getattr(chunk, "content", None))
+                if text:
+                    answer += text
+            return answer, top_video_id
+        def create_youtube_agent():
+        # zuerst wird das Sprachmodell bestimmt, mit dem der Agent arbeiten soll
+            llm = ChatOpenAI(
+                model="gpt-4o-mini",
+                temperature=0,       
+        type="video",
+        maxResults=min(max_results, 50),
+    )
+    .execute()
+)
+return [
+    {
+        "video_id": item["id"]["videoId"],
+        "title": item["snippet"]["title"],
+        "url": f"https://youtu.be/{item['id']['videoId']}",
+    }
+    for item in response.get("items", [])
+    if item.get("id", {}).get("videoId")
+]
+def youtube_client():
+return build("youtube", "v3", developerKey=YOUTUBE_API_KEY)
+# Die Funktion unten bewertet die 20 abgerufenen Videos nach
+# Aktualität und Popularität
 @tool
 def score_and_rank_videos(
-    video_ids: list[str],
-    w_recency: float = 1.0,
-    w_popularity: float = 1.0,
-) -&gt; list[dict]:
-    """Holt Stats, vergibt Ränge und sortiert nach Gewichteten Scores."""
-    # … Views, Likes, published, rank_recency, rank_popularity …
-    return ranked_videos
-
-# =========================================================
-# 2. ReAct-Agent mit Tool Binding
-# =========================================================
-# Tools search_youtube + score_and_rank_videos werden dem
-# Agenten übergeben (siehe Ausführen unten).
-
-# =========================================================
-# 3. Ausführen (Streamlit + Streaming)
-# =========================================================
-if st.button("Recherche starten") and query_input:
-    llm = ChatOpenAI(
-        model="gpt-4o-mini", temperature=0, api_key=OPENAI_API_KEY
+video_ids: list[str],
+w_recency: float = 1.0,
+w_popularity: float = 1.0,
+) -> list[dict]:
+# in Response werden auf Basis %video_ids% über die Youtube API
+# die Video-Statistiken abgerufen (noch unsortiert als ein langer String)
+response = (
+    youtube_client()
+    .videos()
+    .list(
+        id=",".join(video_ids),
+        part="snippet,statistics",
     )
-    agent = create_react_agent(
-        llm,
-        [search_youtube, score_and_rank_videos],
-        prompt_modifier=(
-            "Suche erst mit search_youtube, bewerte dann mit "
-            "score_and_rank_videos und stelle das TOP-Video mit "
-            "Link und Begründung vor."
-        ),
+    .execute()
+)
+now = datetime.now(timezone.utc)
+videos = []
+# Für jedes gefundene Video wird ein übersichtliches Dictionary erstellt
+# und unter %videos% abgespeichert
+for item in response.get("items", []):
+    snippet = item["snippet"]
+    statistics = item.get("statistics", {})
+    published_at = datetime.fromisoformat(
+        snippet["publishedAt"].replace("Z", "+00:00")
     )
-
-    status_box, ans_box = st.status(
-        "🧠 Agent arbeitet...", expanded=True
-    ), st.empty()
-    full_res = ""
-
-    # ReAct-Streaming Schleife
-    prompt = (
-        f"Suche '{query_input}'. "
-        f"Gewichte: w_recency={w_recency}, w_popularity={w_popularity}"
+    videos.append(
+        {
+            "video_id": item["id"],
+            "title": snippet["title"],
+            "url": f"https://youtu.be/{item['id']}",
+            "published": published_at.strftime("%d.%m.%Y"),
+            "views": int(statistics.get("viewCount", 0)),
+            "likes": int(statistics.get("likeCount", 0)),
+            "days": (now - published_at).days,
+        }
     )
-    for chunk, _ in agent.stream(
-        {"messages": [("user", prompt)]}, stream_mode="messages"
-    ):
-        if chunk.tool_calls:
-            status_box.write(
-                f"⚙️ **Agent führt Tool aus:** `{chunk.tool_calls[0]['name']}`"
-            )
-        elif chunk.type == "tool":
-            out = (
-                json.loads(chunk.content)
-                if isinstance(chunk.content, str)
-                else chunk.content
-            )
-            status_box.write(
-                f"✅ **Ergebnis (`{chunk.name}`):** "
-                f"{len(out)} Elemente verarbeitet."
-            )
-        elif chunk.content:
-            status_box.update(
-                label="✨ Recherche abgeschlossen!",
-                state="complete",
-                expanded=False,
-            )
-            full_res += chunk.content
-            ans_box.markdown(full_res)
+# Hier werden die Videos nach Views sortiert (Likes zwecks Einfachheit nicht berücksichtigt"
+popularity_order = sorted(
+    videos,
+    key=lambda video: video["views"],
+    reverse=True,
+)
+# Hier werden die Videos nach Anzahl der Tage seit Erscheinen sortiert
+recency_order = sorted(
+    videos,
+    key=lambda video: video["days"],
+)
+# Statistiken werden in Platzierungen umgerechnet
+popularity_ranks = {
+    video["video_id"]: rank
+    for rank, video in enumerate(popularity_order, start=1)
+}
+recency_ranks = {
+    video["video_id"]: rank
+    for rank, video in enumerate(recency_order, start=1)
+}
+# aus den beiden Rankings wird ein gewichtetes Gesamtranking erstellt
+# und als Liste (von Dicitionaries) der %videos%, sortiert nach Gesamtscore, zurückgegeben
+for video in videos:
+    video_id = video["video_id"]
+    rank_popularity = popularity_ranks[video_id]
+    rank_recency = recency_ranks[video_id]
+    video["rank_popularity"] = rank_popularity
+    video["rank_recency"] = rank_recency
+    video["score"] = round(
+        rank_recency * w_recency
+        + rank_popularity * w_popularity,
+        1,
+    )
+return sorted(videos, key=lambda video: video["score"])
+def extract_youtube_id(text: str) -> str | None:
+# extrahiert aus dem Link die Youtube ID
+patterns = (
+    r"youtu\.be/([A-Za-z0-9_-]{6,})",
+    r"youtube\.com/watch\?v=([A-Za-z0-9_-]{6,})",
+    r"youtube\.com/embed/([A-Za-z0-9_-]{6,})",
+)
+for pattern in patterns:
+    if match := re.search(pattern, text or ""):
+        return match.group(1)
+return None
+if __name__ == "__main__":
+main()
+
 </code></pre>
     </section>
 

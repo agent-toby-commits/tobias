@@ -162,6 +162,16 @@ def single_agent_api():
     return page_response("singleagent", "api.html")
 
 
+@app.get("/aicoding")
+def ai_coding():
+    return page_response("aicoding.html")
+
+
+@app.get("/vibecoding")
+def vibe_coding():
+    return page_response("vibecoding.html")
+
+
 @app.get("/datafactory")
 def data_factory():
     return page_response("datafactory", "index.html")

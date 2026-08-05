@@ -498,6 +498,11 @@ a.block__part:focus-visible {
   max-width: 52rem;
 }
 
+.page-header--xwide,
+.page-main--xwide {
+  max-width: min(100% - 2rem, 80rem);
+}
+
 .topic-hero {
   margin: 0 0 2rem;
 }
@@ -525,6 +530,11 @@ a.block__part:focus-visible {
   height: auto;
   border-radius: 2px;
   background: #000;
+}
+
+.topic-figure--wide img {
+  max-width: min(100%, 80rem);
+  background: #f7f6f2;
 }
 
 .topic-article h2 {
