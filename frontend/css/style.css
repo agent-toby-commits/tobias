@@ -819,6 +819,138 @@ a.block__part:focus-visible {
   color: #f87171;
 }
 
+/* --- Memory Demo (native, ohne iframe) --- */
+
+.memory-demo {
+  margin: 0.85rem 0 0;
+}
+
+.memory-demo__btn {
+  appearance: none;
+  margin: 0 0 1rem;
+  padding: 0.65rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.35rem;
+  background: var(--panel);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.memory-demo__btn:hover,
+.memory-demo__btn:focus-visible {
+  border-color: var(--accent);
+  outline: none;
+}
+
+.memory-demo__btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.memory-demo__btn--primary {
+  background: var(--accent-soft);
+  border-color: rgba(62, 207, 191, 0.45);
+  color: var(--accent);
+}
+
+.memory-demo__output {
+  min-height: 8rem;
+  margin: 0 0 1.15rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.memory-demo__line {
+  margin: 0 0 0.45rem;
+  color: var(--ink);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.memory-demo__line:last-child {
+  margin-bottom: 0;
+}
+
+.memory-demo__line--ai {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.memory-demo__line--status,
+.memory-demo__line--timer {
+  color: var(--ink-soft);
+}
+
+.memory-demo__form {
+  display: flex;
+  gap: 0.75rem;
+  margin: 0 0 1.75rem;
+}
+
+.memory-demo__form .memory-demo__btn {
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.memory-demo__input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 0.35rem;
+  background: #0a0e14;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+}
+
+.memory-demo__input::placeholder {
+  color: var(--ink-soft);
+  opacity: 0.75;
+}
+
+.memory-demo__input:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.memory-demo__input:disabled {
+  opacity: 0.5;
+}
+
+.memory-demo__list-title {
+  margin: 0 0 0.65rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.memory-demo__list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.35rem 1rem;
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+@media (max-width: 650px) {
+  .memory-demo__form {
+    flex-direction: column;
+  }
+
+  .memory-demo__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 .code-block {
   margin: 0;
   padding: 1.1rem 1.15rem;

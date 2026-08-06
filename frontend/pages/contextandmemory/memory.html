@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Basic Memory · Context &amp; Memory Management · Tobias Lampe</title>
+  <meta name="description" content="Basic Memory – begrenztes Kurzzeitgedächtnis am Beispiel „Ich packe meinen Koffer“.">
+  <link rel="canonical" href="https://tobiaslampe.de/contextandmemory/memory">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="page">
+  <header class="page-header">
+    <p class="page-nav">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <a href="/contextandmemory">Context &amp; Memory Management</a>
+      <span aria-hidden="true">/</span>
+      <span>Basic Memory</span>
+    </p>
+    <p class="page-eyebrow">Teilbereich</p>
+    <h1 class="page-title">Basic Memory</h1>
+    <p class="page-lede">Begrenztes Kurzzeitgedächtnis – warum Agenten nicht alles behalten können.</p>
+  </header>
+
+  <main class="page-main">
+    <article class="topic-article">
+      <h2>Warum Memory?</h2>
+      <p>
+        Sprachmodelle haben kein dauerhaftes Erinnerungsvermögen an frühere Interaktionen.
+        Was zählt, ist der aktuelle Kontext – und der ist endlich. Die folgende Demo macht
+        diese Grenze spielerisch erlebbar: Du und eine simulierte AI spielen
+        „Ich packe meinen Koffer“. Die AI merkt sich nur eine begrenzte Anzahl von Begriffen;
+        darüber hinaus muss sie raten.
+      </p>
+    </article>
+
+    <section class="live-demo" id="demo" aria-label="Memory Demo">
+      <h2 class="live-demo__title">Ich packe meinen Koffer</h2>
+
+      <article class="topic-article topic-article--demo-intro-tight">
+        <p>
+          Starte das Spiel und gib Begriffe als Nummern ein (z.&nbsp;B. <code>4</code> oder
+          <code>4 17 2</code>). Merke dir die gesamte Reihenfolge und ergänze jeweils einen neuen Begriff.
+        </p>
+      </article>
+
+      <div class="memory-demo">
+        <button type="button" class="memory-demo__btn" id="start-knopf">Spiel starten</button>
+
+        <div class="memory-demo__output" id="ausgabe" aria-live="polite">
+          <p class="memory-demo__line" id="mensch-ausgabe">Drücke „Spiel starten“.</p>
+          <p class="memory-demo__line memory-demo__line--ai" id="ai-ausgabe"></p>
+          <p class="memory-demo__line memory-demo__line--status" id="status-ausgabe"></p>
+          <p class="memory-demo__line memory-demo__line--timer" id="stoppuhr"></p>
+        </div>
+
+        <form class="memory-demo__form" id="formular">
+          <input
+            class="memory-demo__input"
+            id="eingabe"
+            type="text"
+            placeholder="Nummern eingeben, zum Beispiel: 4 17 2"
+            autocomplete="off"
+            disabled
+          >
+          <button class="memory-demo__btn memory-demo__btn--primary" id="senden-knopf" type="submit" disabled>
+            Antwort senden
+          </button>
+        </form>
+
+        <h3 class="memory-demo__list-title">Verfügbare Begriffe</h3>
+        <div class="memory-demo__list" id="begriffsliste"></div>
+      </div>
+    </section>
+
+    <p class="topic-back">
+      <a href="/contextandmemory">Zurück zu Context &amp; Memory Management</a>
+      <span class="page-nav__dot" aria-hidden="true">·</span>
+      <a href="/">Zurück zur Home</a>
+    </p>
+  </main>
+
+  <script>
+    const begriffe = [
+      "Zahnbürste", "Reisepass", "Sonnenbrille", "T-Shirt", "Socken",
+      "Unterwäsche", "Pullover", "Hose", "Schuhe", "Sandalen",
+      "Jacke", "Regenschirm", "Handtuch", "Badehose", "Sonnencreme",
+      "Shampoo", "Seife", "Kamm", "Buch", "Kopfhörer",
+      "Ladekabel", "Handy", "Kamera", "Laptop", "Trinkflasche",
+      "Snack", "Stadtplan", "Reiseführer", "Schlafmaske", "Nackenkissen",
+      "Medikamente", "Pflaster", "Taschenlampe", "Notizbuch", "Stift",
+      "Mütze", "Schal", "Handschuhe", "Gürtel", "Rucksack",
+      "Geldbörse", "Schlüssel", "Fahrkarte", "Kuscheltier", "Würfelspiel",
+      "Taschenmesser", "Fernglas", "Kompass", "Powerbank", "Ohrstöpsel"
+    ];
+
+    const startKnopf = document.querySelector("#start-knopf");
+    const formular = document.querySelector("#formular");
+    const eingabe = document.querySelector("#eingabe");
+    const sendenKnopf = document.querySelector("#senden-knopf");
+    const menschAusgabe = document.querySelector("#mensch-ausgabe");
+    const aiAusgabe = document.querySelector("#ai-ausgabe");
+    const statusAusgabe = document.querySelector("#status-ausgabe");
+    const stoppuhr = document.querySelector("#stoppuhr");
+    const begriffsliste = document.querySelector("#begriffsliste");
+
+    let reihenfolge = [];
+    let aiMerkfaehigkeit = 5;
+    let spielLaeuft = false;
+    let menschIstAmZug = false;
+    let stoppuhrZeitgeber;
+
+    begriffe.forEach((begriff, index) => {
+      const element = document.createElement("span");
+      element.textContent = `${index + 1}. ${begriff}`;
+      begriffsliste.appendChild(element);
+    });
+
+    function zufaelligeGanzeZahl(kleinsteZahl, groessteZahl) {
+      const anzahl = groessteZahl - kleinsteZahl + 1;
+      return Math.floor(Math.random() * anzahl) + kleinsteZahl;
+    }
+
+    function zufaelligesElement(liste) {
+      const zufaelligerIndex = Math.floor(Math.random() * liste.length);
+      return liste[zufaelligerIndex];
+    }
+
+    function kofferSatz(folge) {
+      const gegenstaende = folge.map(index => begriffe[index]);
+      return `Ich packe meinen Koffer und ich nehme mit: [${gegenstaende.join(", ")}]`;
+    }
+
+    function eingabeSperren() {
+      menschIstAmZug = false;
+      eingabe.disabled = true;
+      sendenKnopf.disabled = true;
+    }
+
+    function eingabeFreigeben() {
+      menschIstAmZug = true;
+      eingabe.disabled = false;
+      sendenKnopf.disabled = false;
+      eingabe.value = "";
+      eingabe.focus();
+    }
+
+    function spielBeenden(meldung) {
+      spielLaeuft = false;
+      eingabeSperren();
+      statusAusgabe.textContent = meldung;
+      startKnopf.textContent = "Neu starten";
+    }
+
+    function freieBegriffeErmitteln() {
+      return begriffe
+        .map((begriff, index) => index)
+        .filter(index => !reihenfolge.includes(index));
+    }
+
+    function herunterzaehlen() {
+      let zahl = 5;
+      stoppuhr.textContent = `Stoppuhr: ${zahl}`;
+
+      stoppuhrZeitgeber = setInterval(() => {
+        zahl = zahl - 1;
+        stoppuhr.textContent = `Stoppuhr: ${zahl}`;
+
+        if (zahl === 0) {
+          clearInterval(stoppuhrZeitgeber);
+
+          menschAusgabe.textContent = "";
+          aiAusgabe.textContent = "";
+          stoppuhr.textContent = "";
+          statusAusgabe.textContent =
+            "Gib die vollständige Reihenfolge ein und ergänze einen neuen Begriff.";
+
+          eingabeFreigeben();
+        }
+      }, 1000);
+    }
+
+    function aiIstAmZug() {
+      const aiVersuch = [...reihenfolge];
+
+      if (reihenfolge.length > aiMerkfaehigkeit) {
+        const vergessenerIndex = reihenfolge.length - aiMerkfaehigkeit - 1;
+        const erinnerteBegriffe = reihenfolge.slice(-aiMerkfaehigkeit);
+
+        const ratemoeglichkeiten = begriffe
+          .map((begriff, index) => index)
+          .filter(index => !erinnerteBegriffe.includes(index));
+
+        const geratenerBegriff = zufaelligesElement(ratemoeglichkeiten);
+        aiVersuch[vergessenerIndex] = geratenerBegriff;
+
+        if (geratenerBegriff !== reihenfolge[vergessenerIndex]) {
+          aiAusgabe.textContent = `AI: ${kofferSatz(aiVersuch)}`;
+          spielBeenden(
+            "Du hast gewonnen!! Die AI erinnert sich nicht mehr und hat nur geraten!"
+          );
+          return;
+        }
+      }
+
+      const freieBegriffe = freieBegriffeErmitteln();
+
+      if (freieBegriffe.length === 0) {
+        spielBeenden("Alle 50 Begriffe wurden verwendet. Unentschieden.");
+        return;
+      }
+
+      const neuerBegriff = zufaelligesElement(freieBegriffe);
+      reihenfolge.push(neuerBegriff);
+
+      aiAusgabe.textContent = `AI: ${kofferSatz(reihenfolge)}`;
+      statusAusgabe.textContent = "Merke dir die Reihenfolge.";
+
+      herunterzaehlen();
+    }
+
+    function spielStarten() {
+      clearInterval(stoppuhrZeitgeber);
+
+      reihenfolge = [];
+      aiMerkfaehigkeit = zufaelligeGanzeZahl(5, 12);
+      spielLaeuft = true;
+
+      menschAusgabe.textContent = "";
+      aiAusgabe.textContent = "";
+      stoppuhr.textContent = "";
+      statusAusgabe.textContent =
+        "Du beginnst: Gib einen ersten Begriff als Nummer ein.";
+
+      startKnopf.textContent = "Neu starten";
+      eingabeFreigeben();
+    }
+
+    function nummernEinlesen(text) {
+      const einzelneNummern = text
+        .trim()
+        .split(/[\s,;]+/)
+        .filter(Boolean)
+        .map(Number);
+
+      if (einzelneNummern.length === 0) {
+        return null;
+      }
+
+      const nummerIstUngueltig = einzelneNummern.some(nummer =>
+        !Number.isInteger(nummer) || nummer < 1 || nummer > begriffe.length
+      );
+
+      if (nummerIstUngueltig) {
+        return null;
+      }
+
+      return einzelneNummern.map(nummer => nummer - 1);
+    }
+
+    formular.addEventListener("submit", ereignis => {
+      ereignis.preventDefault();
+
+      if (!spielLaeuft || !menschIstAmZug) {
+        return;
+      }
+
+      const eingegebeneReihenfolge = nummernEinlesen(eingabe.value);
+      const erwarteteLaenge = reihenfolge.length + 1;
+
+      const hatDoppelte = eingegebeneReihenfolge &&
+        new Set(eingegebeneReihenfolge).size !== eingegebeneReihenfolge.length;
+
+      const bisherigeReihenfolgeStimmt = eingegebeneReihenfolge &&
+        reihenfolge.every((wert, index) => eingegebeneReihenfolge[index] === wert);
+
+      const neuerBegriff = eingegebeneReihenfolge
+        ? eingegebeneReihenfolge[eingegebeneReihenfolge.length - 1]
+        : null;
+
+      const neuerBegriffIstFrei = neuerBegriff !== null &&
+        !reihenfolge.includes(neuerBegriff);
+
+      const antwortIstFalsch =
+        !eingegebeneReihenfolge ||
+        eingegebeneReihenfolge.length !== erwarteteLaenge ||
+        hatDoppelte ||
+        !bisherigeReihenfolgeStimmt ||
+        !neuerBegriffIstFrei;
+
+      if (antwortIstFalsch) {
+        menschAusgabe.textContent = `Mensch: [${eingabe.value}]`;
+        aiAusgabe.textContent = "";
+        spielBeenden(
+          `Falsch. Richtig wäre gewesen: ${kofferSatz(reihenfolge)}`
+        );
+        return;
+      }
+
+      reihenfolge = eingegebeneReihenfolge;
+      eingabeSperren();
+
+      menschAusgabe.textContent = `Mensch: ${kofferSatz(reihenfolge)}`;
+      aiAusgabe.textContent = "";
+      statusAusgabe.textContent = "AI ist am Zug …";
+
+      setTimeout(aiIstAmZug, 600);
+    });
+
+    startKnopf.addEventListener("click", spielStarten);
+  </script>
+</body>
+</html>

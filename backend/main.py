@@ -147,6 +147,11 @@ def context_and_memory_rag():
     return page_response("contextandmemory", "rag.html")
 
 
+@app.get("/contextandmemory/memory")
+def context_and_memory_memory():
+    return page_response("contextandmemory", "memory.html")
+
+
 @app.get("/singleagent")
 def single_agent():
     return page_response("singleagent", "index.html")
